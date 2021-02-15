@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+
+[System.Serializable]
+public class MapGridData
+{
+    public Vector2 targetCoord;
+    public TileType savedTileData;
+}
+
 public class MapGridGenerator : MonoBehaviour
 {
     [SerializeField] private GameObject mapTilePrefab;
@@ -9,9 +17,21 @@ public class MapGridGenerator : MonoBehaviour
     [SerializeField] private Vector2    gridDimensions  = new Vector2(5, 5);
     [SerializeField] private bool       autoCenter      = true;
 
+    [SerializeField] private List<MapTileController> spawnedObjects = new List<MapTileController>();
+    [SerializeField] private List<MapGridData> gridData = new List<MapGridData>();
+
     public void SpawnMapGrid()
     {
-        for(int x = 0; x < gridDimensions.x; x++)
+        spawnedObjects.Clear();
+        if (autoCenter)
+        {
+            Vector2 newGridPos = new Vector2(GetGridPoint(gridDimensions.x)
+                , GetGridPoint(gridDimensions.y));
+
+            this.transform.position = newGridPos;
+        }
+
+        for (int x = 0; x < gridDimensions.x; x++)
         {
             for(int y = 0; y < gridDimensions.y; y++)
             {
@@ -23,15 +43,34 @@ public class MapGridGenerator : MonoBehaviour
 
                 go.transform.localPosition = spawnPos;
                 go.transform.localScale = new Vector3(tileSize, tileSize, 1);
+
+                MapTileController mtc = go.GetComponent<MapTileController>();
+
+                if (mtc == null) continue;
+
+                mtc.Initialize(this);
+                spawnedObjects.Add(mtc);
+
+                MapGridData mgd = gridData.Find(obj => obj.targetCoord == mtc.WorldCoordinate);
+
+                if (mgd == null) continue;
+
+                mtc.SetTileType(mgd.savedTileData, Vector3.zero, true);
             }
         }
+    }
 
-        if(autoCenter)
+    public void SaveGrid()
+    {
+        gridData.Clear();
+
+        foreach(MapTileController mtc in spawnedObjects)
         {
-            Vector2 newGridPos = new Vector2(GetGridPoint(gridDimensions.x)
-                , GetGridPoint(gridDimensions.y));
+            MapGridData mgd = new MapGridData();
+            mgd.targetCoord = mtc.WorldCoordinate;
+            mgd.savedTileData = mtc.CurrTileType;
 
-            this.transform.position = newGridPos;
+            gridData.Add(mgd);
         }
     }
 
@@ -49,24 +88,20 @@ public class MapGridGenerator : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    [SerializeField, HideInInspector] float prevTileSize;
-    [SerializeField, HideInInspector] Vector2 prevGridSize;
+    [SerializeField, HideInInspector] float     prevTileSize;
+    [SerializeField, HideInInspector] Vector2   prevGridSize;
     private void OnValidate()
     {
         if (EditorApplication.isPlaying) return;
 
         //Apparently editor doesnt like the inverse and cleaner condition, need to do per var ew.
         if (prevTileSize != tileSize && tileSize != 0)
-        {
             prevTileSize = tileSize;
-            AdjustGrid();
-        }
 
         if(prevGridSize != gridDimensions && gridDimensions.magnitude != 0)
-        {
             prevGridSize = gridDimensions;
-            AdjustGrid();
-        }
+
+        AdjustGrid();
     }
 
     private void AdjustGrid()

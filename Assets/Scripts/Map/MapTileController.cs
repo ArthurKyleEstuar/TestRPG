@@ -17,6 +17,8 @@ public class MapTileController : MonoBehaviour
     [SerializeField] private TileDatabase   tileDB;
     [SerializeField] private SpriteRenderer tileRender;
     [SerializeField] private Collider       tileCollider;
+    [SerializeField] private Vector2        worldCoordinate;
+    [SerializeField] private MapGridGenerator gridGen;
 
     [Header("Settings")]
     [SerializeField] private TileType       currTileType;
@@ -29,8 +31,15 @@ public class MapTileController : MonoBehaviour
         }
     }
     public TileType CurrTileType => currTileType;
+    public Vector2 WorldCoordinate => worldCoordinate;
 
-    public void UpdateTileType()
+    public Vector2 Initialize(MapGridGenerator newGrid)
+    {
+        gridGen = newGrid;
+        return worldCoordinate = this.transform.position;
+    }
+
+    public void UpdateTileType(bool isLoad = false)
     {
         if (tileRender == null || tileDB == null) return;
 
@@ -40,13 +49,16 @@ public class MapTileController : MonoBehaviour
 
         if (tileCollider != null)
             tileCollider.isTrigger = !newTileData.IsBlocker;
+
+        if(!isLoad && gridGen != null)
+            gridGen.SaveGrid();
     }
 
-    public void SetTileType(TileType type, Vector3 tileRot)
+    public void SetTileType(TileType type, Vector3 tileRot, bool isLoad = false)
     {
         currTileType = type;
 
-        UpdateTileType();
+        UpdateTileType(isLoad);
 
         this.transform.localEulerAngles = tileRot;
     }
@@ -64,4 +76,5 @@ public class MapTileController : MonoBehaviour
     {
         UpdateTileType();
     }
+
 }

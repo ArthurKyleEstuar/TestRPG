@@ -48,6 +48,8 @@ MonoBehaviour:
   tileDB: {fileID: 11400000, guid: 7615bd2080475ba48adb8224a4088da7, type: 2}
   tileRender: {fileID: 5077456307819705431}
   tileCollider: {fileID: 2595915413171090104}
+  worldCoordinate: {x: 0, y: 0}
+  gridGen: {fileID: 0}
   currTileType: 0
 --- !u!65 &2595915413171090104
 BoxCollider:
