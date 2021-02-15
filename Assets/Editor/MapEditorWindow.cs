@@ -90,7 +90,7 @@ public class MapEditorWindow : EditorWindow
 
         willPaint = GUILayout.Toggle(willPaint, "Paint On Click Mode");
 
-        if (GUILayout.Button("Paint tiles"))
+        if (GUILayout.Button("Paint Selected tiles"))
             UpdateTile(true);
 
         if (GUILayout.Button("Deselect tiles"))
