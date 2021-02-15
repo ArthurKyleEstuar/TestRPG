@@ -4,17 +4,19 @@ using UnityEngine;
 using UnityEditor;
 public enum RotateMode
 {
-    _0 = 0,
-    _90 = 1,
-    _180 = 2,
-    _270 = 3,
+    _0      = 0,
+    _90     = 1,
+    _180    = 2,
+    _270    = 3,
 }
 public class MapEditorWindow : EditorWindow
 {
-    public TileType tileToPaint;
-    public RotateMode tileRotation;
-    private bool firstLoad = true;
-    private TileDatabase tileDB;
+    public TileType         tileToPaint;
+    public RotateMode       tileRotation;
+    private bool            firstLoad = true;
+    private TileDatabase    tileDB;
+
+    private static bool willPaint;
 
     [MenuItem("MAP/Map Editor")]
     public static void ShowWindow()
@@ -33,6 +35,19 @@ public class MapEditorWindow : EditorWindow
             return;
         }
 
+        LoadFirstSelectedTile();
+
+        firstLoad = false;
+    }
+
+    private void OnDisable()
+    {
+        firstLoad = true;
+        SceneView.duringSceneGui -= SceneGUI;
+    }
+
+    private void LoadFirstSelectedTile()
+    {
         MapTileController mtc = Selection.gameObjects[0].GetComponent<MapTileController>();
 
         if (mtc == null)
@@ -51,20 +66,14 @@ public class MapEditorWindow : EditorWindow
             tileRotation = RotateMode._90;
 
         tileToPaint = mtc.CurrTileType;
-
-        firstLoad = false;
-    }
-
-    private void OnDisable()
-    {
-        firstLoad = true;
-        SceneView.duringSceneGui -= SceneGUI;
     }
 
     TileType prevType;
     RotateMode prevRot;
     private void OnGUI()
     {
+        GUILayout.Space(20);
+
         if (firstLoad) return;
 
         tileToPaint = (TileType)EditorGUILayout.EnumPopup("New Tile Type", tileToPaint);
@@ -77,6 +86,21 @@ public class MapEditorWindow : EditorWindow
             UpdateTile();
         }
 
+        GUILayout.Space(10);
+
+        willPaint = GUILayout.Toggle(willPaint, "Paint On Click Mode");
+
+        if (GUILayout.Button("Paint tiles"))
+            UpdateTile(true);
+
+        if (GUILayout.Button("Deselect tiles"))
+            Selection.objects = new Object[0];
+
+        GeneratePreview();
+    }
+
+    private void GeneratePreview()
+    {
         string previewId = tileToPaint.ToString().ToLower();
         Sprite tileSprite = tileDB.GetFile(previewId).TileSprite;
 
@@ -91,51 +115,45 @@ public class MapEditorWindow : EditorWindow
         tex.SetPixels(data);
         tex.Apply();
 
-        if(GUILayout.Button("Deselect tiles"))
-        {
-            Selection.objects = new Object[0];
-        }
-
-        EditorGUI.PrefixLabel(new Rect(25, 98, 100, 5), new GUIContent("Sprite preview"));
-        EditorGUI.DrawPreviewTexture(new Rect(25, 100, 100, 100), tex);
+        EditorGUI.PrefixLabel(new Rect(25, 148, 100, 5), new GUIContent("Sprite preview"));
+        EditorGUI.DrawPreviewTexture(new Rect(25, 150, 100, 100), tex);
     }
 
-    private void UpdateTile()
+    private void UpdateTile(bool overridePaintCheck = false)
     {
         if (Selection.gameObjects.Length <= 0) return;
 
-        MapTileController mtc = Selection.gameObjects[0].GetComponent<MapTileController>();
-
-        if (mtc == null) return;
-
-        Vector3 rotAngle = Vector3.zero;
-
-        switch(tileRotation)
+        if (!overridePaintCheck && !willPaint) return;
+       
+        foreach (GameObject go in Selection.gameObjects)
         {
-            case RotateMode._0:
-                rotAngle.z = 0;
-                break;
+            MapTileController mtc = go.GetComponent<MapTileController>();
 
-            case RotateMode._90:
-                rotAngle.z = 90;
-                break;
+            if (mtc == null) continue;
 
-            case RotateMode._180:
-                rotAngle.z = 180;
-                break;
+            Vector3 rotAngle = Vector3.zero;
 
-            case RotateMode._270:
-                rotAngle.z = 270;
-                break;
+            string tileRotMode = tileRotation.ToString().Replace("_", "");
+
+            float newZAngle = 0;
+
+            float.TryParse(tileRotMode, out newZAngle);
+
+            rotAngle.z = newZAngle;
+
+            mtc.SetTileType(tileToPaint, rotAngle);
         }
-        mtc.SetTileType(tileToPaint, rotAngle);
     }
 
     private void SceneGUI(SceneView sceneView)
     {
-        if (Event.current.type == EventType.Used)
+        switch(Event.current.type)
         {
-            UpdateTile();
+            case EventType.Used:
+                {
+                    UpdateTile();
+                    break;
+                }
         }
     }
 

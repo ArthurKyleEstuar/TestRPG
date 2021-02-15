@@ -13,11 +13,14 @@ public enum TileType
 [SelectionBase]
 public class MapTileController : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private TileDatabase   tileDB;
     [SerializeField] private SpriteRenderer tileRender;
-    [SerializeField] private TileType       currTileType;
     [SerializeField] private Collider       tileCollider;
 
+    [Header("Settings")]
+    [SerializeField] private TileType       currTileType;
+    
     public string CurrTileTypeId
     {
         get
