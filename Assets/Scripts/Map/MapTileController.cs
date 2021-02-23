@@ -4,10 +4,16 @@ using UnityEngine;
 
 public enum TileType
 {
-    Plains      = 0,
-    Road        = 1,
-    RoadGrass   = 2,
-    RockFace    = 3,
+    Plains              = 0,
+    Road                = 1,
+    RoadGrass           = 2,
+    RockFace            = 3,
+    BuildingBottomLeft  = 4,
+    BuildingBottomMid   = 5,
+    BuildingBottomRight = 6,
+    BuildingTopLeft     = 7,
+    BuildingTopMid      = 8,
+    BuildingTopRight    = 9,
 }
 
 [SelectionBase]
@@ -52,6 +58,15 @@ public class MapTileController : MonoBehaviour
 
         if(!isLoad && gridGen != null)
             gridGen.SaveGrid();
+
+        worldCoordinate = this.transform.position;
+    }
+
+    public void UpdateTileLayer(int newLayer)
+    {
+        if (tileRender == null) return;
+
+        tileRender.sortingOrder = newLayer;
     }
 
     public void SetTileType(TileType type, Vector3 tileRot, bool isLoad = false)

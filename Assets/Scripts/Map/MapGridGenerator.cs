@@ -16,12 +16,16 @@ public class MapGridGenerator : MonoBehaviour
     [SerializeField] private float      tileSize        = 1;
     [SerializeField] private Vector2    gridDimensions  = new Vector2(5, 5);
     [SerializeField] private bool       autoCenter      = true;
+    [SerializeField] private int        spriteLayer     = 0;
+    [SerializeField] private bool       saveGrid        = true;
 
     [SerializeField] private List<MapTileController> spawnedObjects = new List<MapTileController>();
     [SerializeField] private List<MapGridData> gridData = new List<MapGridData>();
 
     public void SpawnMapGrid()
     {
+        if (this == null) return;
+
         spawnedObjects.Clear();
         if (autoCenter)
         {
@@ -51,6 +55,8 @@ public class MapGridGenerator : MonoBehaviour
                 mtc.Initialize(this);
                 spawnedObjects.Add(mtc);
 
+                if (!saveGrid) continue;
+
                 MapGridData mgd = gridData.Find(obj => obj.targetCoord == mtc.WorldCoordinate);
 
                 if (mgd == null) continue;
@@ -62,6 +68,7 @@ public class MapGridGenerator : MonoBehaviour
 
     public void SaveGrid()
     {
+        if (!saveGrid) return;
         gridData.Clear();
 
         foreach(MapTileController mtc in spawnedObjects)
@@ -81,6 +88,8 @@ public class MapGridGenerator : MonoBehaviour
 
     public void DeleteMapGrid()
     {
+        if (this == null || this.transform == null) return;
+
         for (int i = transform.childCount - 1; i >= 0; i--)
         {
             DestroyImmediate(transform.GetChild(i).gameObject);
@@ -92,7 +101,7 @@ public class MapGridGenerator : MonoBehaviour
     [SerializeField, HideInInspector] Vector2   prevGridSize;
     private void OnValidate()
     {
-        if (EditorApplication.isPlaying) return;
+        if (EditorApplication.isPlaying || !saveGrid) return;
 
         //Apparently editor doesnt like the inverse and cleaner condition, need to do per var ew.
         if (prevTileSize != tileSize && tileSize != 0)
@@ -109,6 +118,8 @@ public class MapGridGenerator : MonoBehaviour
         //This is scary. This should be illegal. This shouldnt work but it does.
         EditorApplication.delayCall += () =>
         {
+            if (!saveGrid) return;
+
             DeleteMapGrid();
             SpawnMapGrid();
         };

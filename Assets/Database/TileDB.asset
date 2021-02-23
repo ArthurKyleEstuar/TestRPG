@@ -29,3 +29,27 @@ MonoBehaviour:
     tileSprite: {fileID: -3085881342985369460, guid: 7f45c91d2b0162e4ea4272a4d514e2f3,
       type: 3}
     isBlocker: 0
+  - id: buildingbottomleft
+    tileSprite: {fileID: -8234873868129427665, guid: 7f45c91d2b0162e4ea4272a4d514e2f3,
+      type: 3}
+    isBlocker: 1
+  - id: buildingbottommid
+    tileSprite: {fileID: 7629720736372994636, guid: 7f45c91d2b0162e4ea4272a4d514e2f3,
+      type: 3}
+    isBlocker: 1
+  - id: buildingbottomright
+    tileSprite: {fileID: -362087527309959215, guid: 7f45c91d2b0162e4ea4272a4d514e2f3,
+      type: 3}
+    isBlocker: 1
+  - id: buildingtopright
+    tileSprite: {fileID: 7776208714518904018, guid: 7f45c91d2b0162e4ea4272a4d514e2f3,
+      type: 3}
+    isBlocker: 0
+  - id: buildingtopmid
+    tileSprite: {fileID: -8804016816488214725, guid: 7f45c91d2b0162e4ea4272a4d514e2f3,
+      type: 3}
+    isBlocker: 0
+  - id: buildingtopleft
+    tileSprite: {fileID: -1500926353012447050, guid: 7f45c91d2b0162e4ea4272a4d514e2f3,
+      type: 3}
+    isBlocker: 0
