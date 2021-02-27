@@ -39,6 +39,8 @@ public class BattleCharController : MonoBehaviour
 
             SkillObject so = go.GetComponent<SkillObject>();
 
+            so.Initialize(sd, this);
+
             skillObjects.Add(so);
         }
     }

@@ -16,7 +16,7 @@ MonoBehaviour:
   - id: powerstrike
     skillName: Power Strike
     skillDesc: Deal 1.5x Damage
-    skillTargetType: 2
+    skillTargetType: 1
     skillCost: 0
     skillCooldown: 0
     skillValue: 1.5

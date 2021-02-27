@@ -19,16 +19,19 @@ public abstract class SkillObject : MonoBehaviour
 
     public abstract void UseSkill();
 
-    public virtual void SetTarget(BattleCharController newTarget)
+    public void AddTarget(BattleCharController newTarget)
     {
-        currTargets.Clear();
         currTargets.Add(newTarget);
     }
 
-    public virtual void SetTarget(List<BattleCharController> newTargets)
+    public void ClearTarget()
     {
         currTargets.Clear();
-        currTargets.AddRange(newTargets);
+    }
+
+    public bool CanSelectTarget()
+    {
+        return currTargets.Count < CurrSkillData.MaxTargetCount;
     }
 
     public virtual bool CanUseSkill(int availActionPoints)

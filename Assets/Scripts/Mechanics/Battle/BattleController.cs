@@ -4,10 +4,28 @@ using UnityEngine;
 
 public class BattleController : MonoBehaviour
 {
-    [SerializeField] private List<BattleCharController> battleControllers = new List<BattleCharController>();
+    [SerializeField] private static List<BattleCharController> battleControllers = new List<BattleCharController>();
     [SerializeField] private PlayerBattle               playerController;
 
-    private int currBattleIndex;
+    private static int currBattleIndex;
+
+    private static BattleController instance;
+    private static BattleController Instance
+    {
+        get
+        {
+            if (instance == null)
+                instance = FindObjectOfType<BattleController>();
+
+            if (instance == null)
+            {
+                Debug.LogError("NO BATTLE CONTROLLER");
+                return null;
+            }
+
+            return instance;
+        }
+    }
 
     private void Start()
     {
@@ -22,11 +40,11 @@ public class BattleController : MonoBehaviour
         //3. Turn order
     }
 
-    private void HandleTurn()
+    private static void HandleTurn()
     {
-        if (battleControllers[currBattleIndex].TeamId == "player" && playerController != null)
+        if (battleControllers[currBattleIndex].TeamId == "player" && Instance.playerController != null)
         {
-            playerController.OnTurnStart(battleControllers[currBattleIndex]);
+            Instance.playerController.OnTurnStart(battleControllers[currBattleIndex]);
         }
         else
         {
@@ -38,7 +56,7 @@ public class BattleController : MonoBehaviour
         }
     }
 
-    public void EndTurn()
+    public static void EndTurn()
     {
         currBattleIndex++;
 
@@ -48,7 +66,7 @@ public class BattleController : MonoBehaviour
         HandleTurn();
     }
 
-    public List<BattleCharController> GetValidTargets(string currTeamId)
+    public static List<BattleCharController> GetValidTargets(string currTeamId)
     {
         List<BattleCharController> validTargets = new List<BattleCharController>();
 

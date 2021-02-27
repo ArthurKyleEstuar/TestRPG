@@ -7,18 +7,37 @@ using TMPro;
 public class BattleOptionUI : MonoBehaviour
 {
     [Header("Target Data")]
-    [SerializeField] private Transform targetList;
+    [SerializeField] private Transform  targetList;
     [SerializeField] private GameObject targetButton;
 
     [Header("Skill Data")]
-    [SerializeField] private Transform skillList;
+    [SerializeField] private Transform  skillList;
     [SerializeField] private GameObject skillButton;
 
     [Header("Log")]
     [SerializeField] private TextMeshProUGUI enemyLog;
 
-    private List<TargetSelect> targetObjects = new List<TargetSelect>();
-    private List<SkillButton> skillButtons = new List<SkillButton>();
+    private List<TargetSelect>  targetObjects = new List<TargetSelect>();
+    private List<SkillButton>   skillButtons = new List<SkillButton>();
+
+    private static BattleOptionUI instance;
+    public static BattleOptionUI Instance
+    {
+        get
+        {
+            if (instance == null)
+                instance = FindObjectOfType<BattleOptionUI>();
+
+            if(instance == null)
+            {
+                Debug.LogError("NO BATTLE OPTION UI");
+                return null;
+            }
+
+            return instance;
+        }
+    }
+
 
     #region Target Selection
     public void ShowValidTargets(List<BattleCharController> targets)
@@ -54,6 +73,11 @@ public class BattleOptionUI : MonoBehaviour
         targetObjects.ForEach(obj => obj.gameObject.SetActive(false));
     }
 
+    public void DisableSkillList()
+    {
+        skillButtons.ForEach(obj => obj.gameObject.SetActive(false));
+    }
+
     private void SetTargetButton(BattleCharController newData)
     {
         GameObject go = Instantiate(targetButton, targetList);
@@ -70,21 +94,33 @@ public class BattleOptionUI : MonoBehaviour
 
     public void ShowSkills(List<SkillObject> skills)
     {
-        foreach(SkillObject skill in skills)
+        if (skillButtons == null || skillButtons.Count <= 0)
         {
+            foreach (SkillObject skill in skills)
+            {
+                GameObject obj = Instantiate(skillButton, skillList);
 
+                SkillButton sb = obj.GetComponent<SkillButton>();
+
+                sb.Initialize(skill, this);
+
+                skillButtons.Add(sb);
+            }
+        }
+        else
+        {
+            for(int i = 0; i < skillButtons.Count; i++)
+            {
+                skillButtons[i].gameObject.SetActive(true);
+                skillButtons[i].Initialize(skills[i], this);
+            }
         }
     }
 
-    private void SetSkillButton()
+    public static void LogAction(string msg)
     {
+        if (Instance.enemyLog == null) return;
 
-    }
-
-    public void LogAction(string msg)
-    {
-        if (enemyLog == null) return;
-
-        enemyLog.text = msg;
+        Instance.enemyLog.text = msg;
     }
 }

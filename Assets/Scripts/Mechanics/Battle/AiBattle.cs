@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class AiBattle : MonoBehaviour
 {
-    [SerializeField] private BattleController       battleController;
     [SerializeField] private BattleCharController   aiData;
     [SerializeField] private BattleOptionUI         battleUi;
 
     private void Start()
     {
-        battleController = FindObjectOfType<BattleController>();
         aiData = GetComponent<BattleCharController>();
         battleUi = FindObjectOfType<BattleOptionUI>();
     }
 
     public void ProcessTurn()
     {
-        if (battleUi != null)
-            battleUi.LogAction(aiData.CharName + " is thinking...");
+        if (BattleOptionUI.Instance != null)
+            BattleOptionUI.LogAction(aiData.CharName + " is thinking...");
 
         StartCoroutine(DelayedEndTurnCR());
     }
@@ -27,9 +25,9 @@ public class AiBattle : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        if (battleUi != null)
-            battleUi.LogAction("");
+        if (BattleOptionUI.Instance != null)
+            BattleOptionUI.LogAction("");
 
-        battleController.EndTurn();
+        BattleController.EndTurn();
     }
 }
