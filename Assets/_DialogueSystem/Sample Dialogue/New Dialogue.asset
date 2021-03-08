@@ -1,0 +1,178 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8c18a9a5cfd5b4da3d5da368249e90, type: 3}
+  m_Name: New Dialogue
+  m_EditorClassIdentifier: 
+  Nodes:
+  - {fileID: 3047497709077766312}
+  - {fileID: 6973023090777917389}
+  - {fileID: 1335621447615669617}
+  - {fileID: 1546898683601754315}
+  - {fileID: 5705883600502556539}
+  - {fileID: 3627382722405044432}
+  newNodeOffset: {x: 250, y: 0}
+  defaultNodeSize: {x: 300, y: 200}
+--- !u!114 &1335621447615669617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: dbe291e1-f9ea-44c6-8042-13dd7eb62031
+  m_EditorClassIdentifier: 
+  nodeColor: 0
+  speaker: Player
+  text: Just passing through
+  audioClip: {fileID: 0}
+  children:
+  - 29e37be0-7822-4916-ba8e-6d924dc597f1
+  rect:
+    serializedVersion: 2
+    x: 761
+    y: 39
+    width: 300
+    height: 200
+  onEnterActions: 
+  onExitActions: 
+--- !u!114 &1546898683601754315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: 583c92bf-c1b9-4617-953d-388f9a4a2a7f
+  m_EditorClassIdentifier: 
+  nodeColor: 0
+  speaker: Player
+  text: None of your business
+  audioClip: {fileID: 0}
+  children:
+  - 7ad61198-a3dc-4f92-9e38-8d3410d59a8f
+  rect:
+    serializedVersion: 2
+    x: 755
+    y: 249
+    width: 300
+    height: 200
+  onEnterActions: 
+  onExitActions: 
+--- !u!114 &3047497709077766312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: d58da5b1-4155-4096-90ff-59308699a1eb
+  m_EditorClassIdentifier: 
+  nodeColor: 0
+  speaker: Guy
+  text: Hello there. Nice seeing you here
+  audioClip: {fileID: 0}
+  children:
+  - 8c565b79-afe3-498d-a538-ead84dabf779
+  rect:
+    serializedVersion: 2
+    x: 38
+    y: 145
+    width: 300
+    height: 200
+  onEnterActions: 
+  onExitActions: 
+--- !u!114 &3627382722405044432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: 7ad61198-a3dc-4f92-9e38-8d3410d59a8f
+  m_EditorClassIdentifier: 
+  nodeColor: 1
+  speaker: Guy
+  text: Well sir.  I'll have you know that we do not tolerate rude guests.
+  audioClip: {fileID: 0}
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1165
+    y: 253
+    width: 300
+    height: 200
+  onEnterActions: RED
+  onExitActions: DESTROY
+--- !u!114 &5705883600502556539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: 29e37be0-7822-4916-ba8e-6d924dc597f1
+  m_EditorClassIdentifier: 
+  nodeColor: 1
+  speaker: Guy
+  text: Enjoy your visit!
+  audioClip: {fileID: 0}
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1163
+    y: 36
+    width: 300
+    height: 200
+  onEnterActions: 
+  onExitActions: 
+--- !u!114 &6973023090777917389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: 8c565b79-afe3-498d-a538-ead84dabf779
+  m_EditorClassIdentifier: 
+  nodeColor: 1
+  speaker: Guy
+  text: What brings you to the area?
+  audioClip: {fileID: 0}
+  children:
+  - dbe291e1-f9ea-44c6-8042-13dd7eb62031
+  - 583c92bf-c1b9-4617-953d-388f9a4a2a7f
+  rect:
+    serializedVersion: 2
+    x: 391
+    y: 146
+    width: 300
+    height: 200
+  onEnterActions: 
+  onExitActions: 

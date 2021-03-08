@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -132,6 +133,8 @@ GameObject:
   - component: {fileID: 1129352188}
   - component: {fileID: 1129352187}
   - component: {fileID: 1129352190}
+  - component: {fileID: 1129352191}
+  - component: {fileID: 1129352192}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -189,3 +192,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8355137faa539234baee31915e293e3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1129352191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129352186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98013f5fa20112b448d62939bd8062f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1129352192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129352186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f645258a53031946a510de1fd5c3759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questMasterDB: {fileID: 11400000, guid: e12789e2f324278449873192ae0970d2, type: 2}
