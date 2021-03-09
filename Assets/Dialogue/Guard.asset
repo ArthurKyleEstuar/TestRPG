@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7710878077066957844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: ef148a63-ca9f-433d-b6b1-991c0162e398
+  m_EditorClassIdentifier: 
+  nodeColor: 0
+  speaker: Guard
+  text: Halt!  Who goes there?
+  audioClip: {fileID: 0}
+  children:
+  - 6c03f98c-50de-4a79-8bc8-f7fd9334a1dc
+  - 1cbccb81-52e6-4b17-8e18-acf207ca4af9
+  rect:
+    serializedVersion: 2
+    x: 2
+    y: 32
+    width: 300
+    height: 200
+  onEnterActions: 
+  onExitActions: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8c18a9a5cfd5b4da3d5da368249e90, type: 3}
+  m_Name: Guard
+  m_EditorClassIdentifier: 
+  Nodes:
+  - {fileID: -7710878077066957844}
+  - {fileID: 283791869387640376}
+  - {fileID: 2234580028579586208}
+  - {fileID: 490720984446246464}
+  - {fileID: 6396789128576163464}
+  newNodeOffset: {x: 250, y: 0}
+  defaultNodeSize: {x: 300, y: 200}
+--- !u!114 &283791869387640376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: 6c03f98c-50de-4a79-8bc8-f7fd9334a1dc
+  m_EditorClassIdentifier: 
+  nodeColor: 1
+  speaker: 
+  text: I'm looking for work.  Does anyone need help around here?
+  audioClip: {fileID: 0}
+  children:
+  - 7f020daf-c446-4d56-8049-90072467fc5f
+  rect:
+    serializedVersion: 2
+    x: 339
+    y: 40
+    width: 300
+    height: 200
+  onEnterActions: 
+  onExitActions: 
+--- !u!114 &490720984446246464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: 7f020daf-c446-4d56-8049-90072467fc5f
+  m_EditorClassIdentifier: 
+  nodeColor: 0
+  speaker: Guard
+  text: Hmm.  Now that you mention we need help cleaning the area up.  Why don't
+    you pick up the trash in the area.
+  audioClip: {fileID: 0}
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 671
+    y: 33
+    width: 300
+    height: 200
+  onEnterActions: 
+  onExitActions: 
+--- !u!114 &2234580028579586208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: 1cbccb81-52e6-4b17-8e18-acf207ca4af9
+  m_EditorClassIdentifier: 
+  nodeColor: 1
+  speaker: 
+  text: Just passing through town
+  audioClip: {fileID: 0}
+  children:
+  - 10697d06-3095-4e38-802c-11e34fde78c5
+  rect:
+    serializedVersion: 2
+    x: 340
+    y: 241
+    width: 300
+    height: 200
+  onEnterActions: 
+  onExitActions: 
+--- !u!114 &6396789128576163464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539313282d09abf478561d80384bd60e, type: 3}
+  m_Name: 10697d06-3095-4e38-802c-11e34fde78c5
+  m_EditorClassIdentifier: 
+  nodeColor: 0
+  speaker: Guard
+  text: Enjoy your visit!
+  audioClip: {fileID: 0}
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 666
+    y: 242
+    width: 300
+    height: 200
+  onEnterActions: 
+  onExitActions: 

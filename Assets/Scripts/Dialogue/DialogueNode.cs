@@ -18,14 +18,13 @@ public enum NodeColor
 
 public class DialogueNode : ScriptableObject
 {
-
     [SerializeField] private NodeColor      nodeColor = NodeColor.Gray;
     [SerializeField] private string         speaker;
     [TextArea(3, 4)]
     [SerializeField] private string         text;
     [SerializeField] private AudioClip      audioClip;
     [SerializeField] private List<string>   children        = new List<string>();
-    [SerializeField] private Rect           rect            = new Rect(0, 0, 300, 150);
+    [SerializeField] private Rect           rect            = new Rect(0, 0, 300, 200);
 
     [SerializeField] private string onEnterActions;
     [SerializeField] private string onExitActions;

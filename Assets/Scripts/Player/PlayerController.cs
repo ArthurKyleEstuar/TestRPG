@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     [SerializeField] private Rigidbody  playerRb;
     [SerializeField] private float      moveSpeed = 5.0f;
+
+    [SerializeField] private GameObject interactText;
+
+    private IInteractable curInteraction;
+
+    private void Start()
+    {
+        if (interactText != null)
+            interactText.SetActive(false);
+    }
 
     private void Update()
     {
@@ -25,6 +34,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
             newPos = AdjustAxisPoint('x', newPos);
 
+        if (Input.GetKeyDown(KeyCode.Space) && curInteraction != null)
+            curInteraction.Interact();
+        
         playerRb.MovePosition(newPos);
         playerRb.velocity = Vector3.zero;
     }
@@ -47,5 +59,24 @@ public class PlayerController : MonoBehaviour
         }
 
         return posToAdjust;
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.GetComponent<IInteractable>() != null)
+        {
+            if (interactText != null)
+                interactText.SetActive(true);
+            curInteraction = collision.GetComponent<IInteractable>();
+        }
+    }
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.GetComponent<IInteractable>() == curInteraction)
+        {
+            if (interactText != null)
+                interactText.SetActive(false);
+            curInteraction = null;
+        }
     }
 }

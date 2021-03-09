@@ -28,7 +28,7 @@ public class QuestManager : BaseManager<QuestManager>
 
     public void AcceptQuest(string id)
     {
-        QuestData quest = curDB.GetQuest(id);
+        QuestData quest = curDB.GetFile(id);
         if (quest == null) return;
         if (quest.GetState() != QuestState.NotAccepted) return;
 
@@ -40,7 +40,7 @@ public class QuestManager : BaseManager<QuestManager>
 
     public QuestData GetQuest(string id)
     {
-        return curDB.GetQuest(id);
+        return curDB.GetFile(id);
     }
 
     void UpdateQuests()
@@ -50,7 +50,7 @@ public class QuestManager : BaseManager<QuestManager>
 
     public void CompleteQuest(string id)
     {
-        QuestData toFinish = curDB.GetQuest(id);
+        QuestData toFinish = curDB.GetFile(id);
         if (toFinish == null) return;
         if (toFinish.GetState() != QuestState.Ongoing) return;
 

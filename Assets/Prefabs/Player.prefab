@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRb: {fileID: 7768905573599530733}
   moveSpeed: 15
+  interactText: {fileID: 0}
 --- !u!65 &7768905573599530722
 BoxCollider:
   m_ObjectHideFlags: 0

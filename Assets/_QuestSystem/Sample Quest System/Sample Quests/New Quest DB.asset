@@ -12,19 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d998f781e9876554ba96ab357513f24a, type: 3}
   m_Name: New Quest DB
   m_EditorClassIdentifier: 
-  quests:
-  - id: talk
-    questTitle: Sample Quest
-    description: This is a an example description of the quest.
-    objectives:
-    - {fileID: 11400000, guid: 4ea4b2892cd42c14883162701d76011b, type: 2}
-    - {fileID: 11400000, guid: 582812ab3d73b1f42871df3b028ab644, type: 2}
-    rewards: Nothing.  You get nothing
-    state: 0
-  - id: collect
-    questTitle: Sample Collect Quest
-    description: This is a an example description of the quest.
-    objectives:
-    - {fileID: 11400000, guid: 4ea4b2892cd42c14883162701d76011b, type: 2}
-    rewards: Nothing.  You get nothing
+  data:
+  - id: 
+    questTitle: 
+    description: 
+    objectives: []
+    rewards: 
     state: 0

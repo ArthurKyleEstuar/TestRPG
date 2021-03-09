@@ -8,18 +8,8 @@ public abstract class Objective : ScriptableObject
 {
     [SerializeField] private string description;
 
-    [SerializeField] private bool isCompleted = false;
-    public bool IsCompleted 
-    {
-        get 
-        {
-            return isCompleted; 
-        }
-        private set 
-        {
-            isCompleted = value; 
-        }
-    }
+    [SerializeField] protected bool isCompleted = false;
+    public bool IsCompleted { get { return isCompleted; } }
 
     public string Description => description;
 
@@ -30,7 +20,7 @@ public abstract class Objective : ScriptableObject
 
     protected virtual void CompleteObjective() 
     {
-        IsCompleted = true;
+        isCompleted = true;
         InvokeComplete();
     }
 

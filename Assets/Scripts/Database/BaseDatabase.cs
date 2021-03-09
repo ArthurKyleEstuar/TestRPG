@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseDatabase<T> : ScriptableObject where T : BaseData
 {
-    [SerializeField] private List<T> data;
+    public List<T> data;
 
     public T GetFile(string id)
     {
