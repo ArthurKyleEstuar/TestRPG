@@ -18,7 +18,7 @@ public class QuestData : BaseData
     [SerializeField] private string             description;
     [SerializeField] private List<Objective>    objectives;
     [SerializeField] private string             rewards;
-    [SerializeField] private QuestState         state;
+    private QuestState state;
 
     public QuestData()
     {

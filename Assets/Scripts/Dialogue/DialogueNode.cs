@@ -35,8 +35,8 @@ public class DialogueNode : ScriptableObject
     public AudioClip    GetAudioClip()      => audioClip;
     public List<string> GetChildren()       => children;
     public Rect         GetRect()           => rect;
-    public string GetEnterActions()         => onEnterActions;
-    public string GetExitActions()          => onExitActions;
+    public string       GetEnterActions()   => onEnterActions;
+    public string       GetExitActions()    => onExitActions;
 
 #if UNITY_EDITOR
     public void SetNodeColor(NodeColor color)
@@ -77,7 +77,7 @@ public class DialogueNode : ScriptableObject
     {
         if (onEnterActions == enterActions) return;
 
-        RecordUndo("Edit Node Text");
+        RecordUndo("Edit Node Enter Actions");
         onEnterActions = enterActions;
         EditorUtility.SetDirty(this);
     }
@@ -85,7 +85,7 @@ public class DialogueNode : ScriptableObject
     {
         if (onExitActions== exitActions) return;
 
-        RecordUndo("Edit Node Text");
+        RecordUndo("Edit Node Exit Actions");
         onExitActions = exitActions;
         EditorUtility.SetDirty(this);
     }

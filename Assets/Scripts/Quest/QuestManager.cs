@@ -10,6 +10,7 @@ public class QuestManager : BaseManager<QuestManager>
 
     public event System.Action OnQuestListUpdated;
     public event System.Action OnQuestProgressChanged;
+    public event System.Action<string> OnQuestAccepted;
     public event System.Action<string> OnQuestCompleted;
 
     public List<QuestData> AcceptedQuests => curDB.GetAcceptedQuests();
@@ -36,6 +37,7 @@ public class QuestManager : BaseManager<QuestManager>
         quest.OnQuestCompleted += CompleteQuest;
         quest.OnQuestUpdated += UpdateQuests;
         OnQuestListUpdated?.Invoke();
+        OnQuestAccepted?.Invoke(id);
     }
 
     public QuestData GetQuest(string id)

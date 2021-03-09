@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject interactText;
 
-    private IInteractable curInteraction;
+    private Interactable curInteraction;
 
     private void Start()
     {
@@ -63,16 +63,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.GetComponent<IInteractable>() != null)
+        if (collision.GetComponent<Interactable>() != null)
         {
             if (interactText != null)
                 interactText.SetActive(true);
-            curInteraction = collision.GetComponent<IInteractable>();
+            curInteraction = collision.GetComponent<Interactable>();
         }
     }
     private void OnTriggerExit(Collider collision)
     {
-        if (collision.GetComponent<IInteractable>() == curInteraction)
+        if (collision.GetComponent<Interactable>() == curInteraction)
         {
             if (interactText != null)
                 interactText.SetActive(false);

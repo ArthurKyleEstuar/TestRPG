@@ -5,9 +5,16 @@ using UnityEngine.Events;
 
 public class DialogueActionListener : MonoBehaviour
 {
-    [SerializeField] private string action;
+    //[System.Serializable]
+    //public struct ActionSet
+    //{
+    //    public string action;
+    //    public UnityEvent onAction;
+    //}
+    ////public List<ActionSet> actionSets;
 
-    [SerializeField] private UnityEvent onAction;
+    public string action;
+    public UnityEvent onAction;
 
     private void Start()
     {
@@ -16,8 +23,13 @@ public class DialogueActionListener : MonoBehaviour
 
     void OnActionActivated(string trigger)
     {
-        if (action != trigger) return;
+        if (trigger == action)
+            onAction?.Invoke();
 
-        onAction?.Invoke();
+        //for (int x = 0; x < actionSets.Count; x++)
+        //{
+        //    if (actionSets[x].action == trigger)
+        //        actionSets[x].onAction?.Invoke();
+        //}
     }
 }

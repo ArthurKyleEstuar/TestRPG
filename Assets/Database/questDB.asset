@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d998f781e9876554ba96ab357513f24a, type: 3}
-  m_Name: New Quest DB
+  m_Name: questDB
   m_EditorClassIdentifier: 
   data:
-  - id: 
-    questTitle: 
-    description: 
-    objectives: []
+  - id: test
+    questTitle: Cleanup
+    description: Pick up trash on the ground
+    objectives:
+    - {fileID: 11400000, guid: 4ea4b2892cd42c14883162701d76011b, type: 2}
     rewards: 
-    state: 0

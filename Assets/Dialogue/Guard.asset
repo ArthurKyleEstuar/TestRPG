@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeColor: 1
   speaker: 
-  text: I'm looking for work.  Does anyone need help around here?
+  text: (Quest) I'm looking for work.  Does anyone need help around here?
   audioClip: {fileID: 0}
   children:
   - 7f020daf-c446-4d56-8049-90072467fc5f
@@ -97,7 +97,7 @@ MonoBehaviour:
     y: 33
     width: 300
     height: 200
-  onEnterActions: 
+  onEnterActions: test
   onExitActions: 
 --- !u!114 &2234580028579586208
 MonoBehaviour:

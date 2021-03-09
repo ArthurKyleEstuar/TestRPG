@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b3e8934ce3db684a8787285180ef429, type: 3}
   m_Name: Pickup items
   m_EditorClassIdentifier: 
-  description: Pick up some stuff
+  description: Pick up trash
   isCompleted: 0
   itemID: item
   maxGoal: 3

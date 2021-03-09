@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuestEnd : MonoBehaviour, IInteractable
+public class QuestEnd : Interactable
 {
     [SerializeField] private string eventToFire;
     public void Interact()
