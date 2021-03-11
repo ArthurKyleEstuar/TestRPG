@@ -21,14 +21,14 @@ public class QuestInfo : MonoBehaviour
     {
         ClearUI();
 
-        description.text = quest.GetDescription();
+        description.text = quest.Description;
         SetupObjectiveList(quest);
-        rewards.text = quest.GetRewards();
+        rewards.text = quest.Reward;
     }
 
     private void SetupObjectiveList(QuestData quest)
     {
-        for (int x = 0, y = quest.GetObjectiveCount(); x < y; x++)
+        for (int x = 0, y = quest.ObjectiveCount; x < y; x++)
         {
             ObjectiveUI objective;
 
@@ -42,7 +42,7 @@ public class QuestInfo : MonoBehaviour
                 objectivesUI.Add(objective);
             }
 
-            objective.UpdateUI(quest.GetObjectives()[x]);
+            objective.UpdateUI(quest.Objectives[x]);
             objective.gameObject.SetActive(true);
         }
     }

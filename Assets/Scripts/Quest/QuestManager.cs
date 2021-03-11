@@ -31,7 +31,7 @@ public class QuestManager : BaseManager<QuestManager>
     {
         QuestData quest = curDB.GetFile(id);
         if (quest == null) return;
-        if (quest.GetState() != QuestState.NotAccepted) return;
+        if (quest.State != QuestState.NotAccepted) return;
 
         quest.StartQuest();
         quest.OnQuestCompleted += CompleteQuest;
@@ -54,7 +54,7 @@ public class QuestManager : BaseManager<QuestManager>
     {
         QuestData toFinish = curDB.GetFile(id);
         if (toFinish == null) return;
-        if (toFinish.GetState() != QuestState.Ongoing) return;
+        if (toFinish.State != QuestState.Ongoing) return;
 
         toFinish.CompleteQuest();
 

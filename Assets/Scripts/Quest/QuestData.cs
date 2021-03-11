@@ -37,7 +37,7 @@ public class QuestData : BaseData
         description = copy.description;
         // Generate list of objectives
         List<Objective> newList = new List<Objective>();
-        for (int x = 0; x < copy.GetObjectiveCount(); x++)
+        for (int x = 0; x < copy.ObjectiveCount; x++)
         {
             // Create new instance of objective SO
             Objective obj = Object.Instantiate(copy.objectives[x]);
@@ -53,18 +53,12 @@ public class QuestData : BaseData
     public event System.Action OnQuestUpdated;
     public event System.Action<string> OnQuestCompleted;
 
-    public string           GetID() =>              id;
-    public string           GetTitle() =>           questTitle;
-    public string           GetDescription() =>     description;
-    public string           GetRewards() =>         rewards;
-    public QuestState       GetState() =>           state;
-    public List<Objective>  GetObjectives() =>      objectives;
-    public int              GetObjectiveCount() =>  objectives.Count;
-
-    public void SetState(QuestState newState)
-    {
-        state = newState;
-    }
+    public string           Title { get { return questTitle; } set { questTitle = value; } }
+    public string           Description { get { return description; } set { description = value; } }
+    public string           Reward { get { return rewards; } set { rewards = value; } }
+    public QuestState       State { get { return state; } set { state = value; } }
+    public List<Objective>  Objectives { get { return objectives; } set { objectives = value; } }
+    public int              ObjectiveCount =>  objectives.Count;
 
     public void StartQuest()
     {

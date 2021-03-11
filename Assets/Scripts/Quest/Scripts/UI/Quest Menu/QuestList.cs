@@ -37,7 +37,7 @@ public class QuestList : MonoBehaviour
             }
 
             selection.GetComponentInChildren<TMPro.TextMeshProUGUI>().text =
-                curQuest.GetTitle();
+                curQuest.Title;
 
             // Add listener to update the quest info display
             selection.onClick.AddListener(() =>
