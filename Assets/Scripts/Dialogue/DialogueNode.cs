@@ -26,6 +26,9 @@ public class DialogueNode : ScriptableObject
     [SerializeField] private List<string>   children        = new List<string>();
     [SerializeField] private Rect           rect            = new Rect(0, 0, 300, 200);
 
+    [SerializeField] private bool   checkQuestAvailability;
+    [SerializeField] private string questIdToCheck;
+
     [SerializeField] private string onEnterActions;
     [SerializeField] private string onExitActions;
 
@@ -35,6 +38,9 @@ public class DialogueNode : ScriptableObject
     public AudioClip    GetAudioClip()      => audioClip;
     public List<string> GetChildren()       => children;
     public Rect         GetRect()           => rect;
+
+    public bool GetCheckQuestAvail() => checkQuestAvailability;
+    public string GetQuestId() => questIdToCheck;
     public string       GetEnterActions()   => onEnterActions;
     public string       GetExitActions()    => onExitActions;
 
@@ -72,7 +78,16 @@ public class DialogueNode : ScriptableObject
         audioClip = clip;
         EditorUtility.SetDirty(this);
     }
-
+    public void SetCheckQuest(bool newCheckQuest)
+    {
+        checkQuestAvailability = newCheckQuest;
+        EditorUtility.SetDirty(this);
+    }
+    public void SetQuestId(string newQuestId)
+    {
+        questIdToCheck = newQuestId;
+        EditorUtility.SetDirty(this);
+    }
     public void SetEnterAction(string enterActions)
     {
         if (onEnterActions == enterActions) return;

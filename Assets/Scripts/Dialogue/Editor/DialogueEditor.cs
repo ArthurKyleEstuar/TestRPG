@@ -271,6 +271,8 @@ public class DialogueEditor : EditorWindow
         node.SetText(EditorGUILayout.TextField("Text", node.GetText()));
 
         node.SetAudio((AudioClip)EditorGUILayout.ObjectField("Audio Clip", node.GetAudioClip(), typeof(AudioClip), allowSceneObjects: false));
+        node.SetCheckQuest(EditorGUILayout.Toggle("Check Quest", node.GetCheckQuestAvail()));
+        node.SetQuestId(EditorGUILayout.TextField("Quest ID", node.GetQuestId()));
 
         node.SetEnterAction(EditorGUILayout.TextField("Enter Actions", node.GetEnterActions()));
 
