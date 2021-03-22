@@ -59,7 +59,9 @@ public class DialogueManager : BaseManager<DialogueManager>
             return;
         }
         else
+        {
             HasChoices = false;
+        }
 
         // Check if node only has 1 child
         if (HasNextDialogue())

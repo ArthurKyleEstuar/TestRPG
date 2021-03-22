@@ -98,6 +98,11 @@ public class DialogueUI : MonoBehaviour
     {
         foreach (DialogueNode choice in manager.GetChoices())
         {
+            if(choice.GetCheckQuestAvail())
+            {
+                if (!QuestManager.Instance.IsQuestAvailable(choice.GetQuestId())) continue;
+            }
+
             GameObject choiceButton = Instantiate(choicePrefab, choiceRoot);
             choiceButton.GetComponentInChildren<TextMeshProUGUI>().text = choice.GetText();
 

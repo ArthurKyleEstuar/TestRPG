@@ -62,6 +62,11 @@ public class QuestManager : BaseManager<QuestManager>
         //OnQuestCompleted(id);
     }
 
+    public bool IsQuestAvailable(string id)
+    {
+        return !AcceptedQuests.Exists(obj => obj.ID == id);
+    }
+
     void SaveQuests()
     {
 

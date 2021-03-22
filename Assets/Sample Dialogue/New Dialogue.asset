@@ -45,6 +45,8 @@ MonoBehaviour:
     y: 39
     width: 300
     height: 200
+  checkQuestAvailability: 0
+  questIdToCheck: 
   onEnterActions: 
   onExitActions: 
 --- !u!114 &1546898683601754315
@@ -71,6 +73,8 @@ MonoBehaviour:
     y: 249
     width: 300
     height: 200
+  checkQuestAvailability: 0
+  questIdToCheck: 
   onEnterActions: 
   onExitActions: 
 --- !u!114 &3047497709077766312
@@ -97,6 +101,8 @@ MonoBehaviour:
     y: 145
     width: 300
     height: 200
+  checkQuestAvailability: 0
+  questIdToCheck: 
   onEnterActions: 
   onExitActions: 
 --- !u!114 &3627382722405044432
@@ -122,6 +128,8 @@ MonoBehaviour:
     y: 253
     width: 300
     height: 200
+  checkQuestAvailability: 0
+  questIdToCheck: 
   onEnterActions: RED
   onExitActions: DESTROY
 --- !u!114 &5705883600502556539
@@ -147,6 +155,8 @@ MonoBehaviour:
     y: 36
     width: 300
     height: 200
+  checkQuestAvailability: 0
+  questIdToCheck: 
   onEnterActions: 
   onExitActions: 
 --- !u!114 &6973023090777917389
@@ -174,5 +184,7 @@ MonoBehaviour:
     y: 146
     width: 300
     height: 200
+  checkQuestAvailability: 0
+  questIdToCheck: 
   onEnterActions: 
   onExitActions: 
