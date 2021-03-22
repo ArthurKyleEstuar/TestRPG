@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
-
 [CreateAssetMenu(menuName = "QuestDB")]
 public class QuestDatabase : BaseDatabase<QuestData>
 {
@@ -61,8 +60,8 @@ public class QuestDatabase : BaseDatabase<QuestData>
         if (GetFile(id) == null) return;
         QuestData quest = GetFile(id);
         if (quest == newQuest) return;
-        Undo.RecordObject(this, "Edit Quest");
 
+        Undo.RecordObject(this, "Edit Quest");
         SetQuest(quest, newQuest);
         EditorUtility.SetDirty(this);
     }
@@ -75,7 +74,7 @@ public class QuestDatabase : BaseDatabase<QuestData>
         oldQuest.Reward = newQuest.Reward;
     }
 
-    public void AddQuest(QuestData toAdd)
+    public void AddQuestCopy(QuestData toAdd)
     {
         if (data.Exists(quest => quest.ID == toAdd.ID)) return;
 
@@ -83,11 +82,11 @@ public class QuestDatabase : BaseDatabase<QuestData>
         QuestData newQuest = new QuestData(toAdd);
         data.Add(newQuest);
     }
-    public void AddQuests(IEnumerable<QuestData> rangeToAdd)
+    public void AddQuestsCopy(IEnumerable<QuestData> rangeToAdd)
     {
         for (int x = 0; x < rangeToAdd.Count(); x++)
         {
-            AddQuest(rangeToAdd.ElementAt(x));
+            AddQuestCopy(rangeToAdd.ElementAt(x));
         }
     }
     public void RemoveQuest(string id)

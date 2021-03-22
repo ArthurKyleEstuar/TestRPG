@@ -13,27 +13,30 @@ public enum QuestState
 [System.Serializable]
 public class QuestData : BaseData
 {
-    [SerializeField] private string             questTitle;
+    [SerializeField] private string             title;
     [TextArea(3,4)]
     [SerializeField] private string             description;
     [SerializeField] private List<Objective>    objectives;
     [SerializeField] private string             rewards;
     private QuestState state;
 
-    public QuestData()
+    public QuestData(string id = "", string title = "", string description = "", List<Objective> objectives = null, string rewards = "", QuestState state = QuestState.NotAccepted)
     {
-        id = "";
-        questTitle = "";
-        description = "";
-        objectives = new List<Objective>();
-        rewards = "";
-        state = QuestState.NotAccepted;
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        if (objectives == null)
+            this.objectives = new List<Objective>();
+        else
+            this.objectives = objectives;
+        this.rewards = rewards;
+        this.state = state;
     }
 
     public QuestData(QuestData copy)
     {
         id = copy.id;
-        questTitle = copy.questTitle;
+        title = copy.title;
         description = copy.description;
         // Generate list of objectives
         List<Objective> newList = new List<Objective>();
@@ -53,7 +56,7 @@ public class QuestData : BaseData
     public event System.Action OnQuestUpdated;
     public event System.Action<string> OnQuestCompleted;
 
-    public string           Title { get { return questTitle; } set { questTitle = value; } }
+    public string           Title { get { return title; } set { title = value; } }
     public string           Description { get { return description; } set { description = value; } }
     public string           Reward { get { return rewards; } set { rewards = value; } }
     public QuestState       State { get { return state; } set { state = value; } }

@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditorInternal;
+using UnityEditor.UI;
 
 public class DataBaseEditor : EditorWindow
 {
     private QuestDatabase questDB = null;
 
-    private Vector2 listScrollPos;
-    private Vector2 menuScrollPos;
+    private Vector2 itemListScrollPos;
+    private Vector2 objScrollPos;
 
-    private readonly Rect canvasArea = new Rect(10, 10, 500, 500);
-    private readonly Rect listArea = new Rect(10, 10, 100, 100);
-    private readonly Rect infoArea = new Rect(120, 10, 300, 400);
+    // entire workable canvas
+    private readonly Rect canvasArea = new Rect(10, 10, 1000, 1000);
+    // section for list items
+    private readonly Rect itemListArea = new Rect(00, 00, 150, 600);
+    // section for the database info
+    private readonly Rect infoArea = new Rect(110, 00, 600, 600);
 
+    private Vector2 windowSize = new Vector2();
     private QuestData curQuest;
+
+    EditorWindow window;
 
     [MenuItem("Window/DataBase Editor")]
     public static void OpenWindow()
@@ -25,25 +31,39 @@ public class DataBaseEditor : EditorWindow
 
     private void OnGUI()
     {
-        if (questDB == null) questDB = AssetDatabase.LoadAssetAtPath<QuestDatabase>("Assets/Database/questDB.asset");
+        DrawBorder(canvasArea);
         GUILayout.BeginArea(canvasArea);
-        //menuScrollPos = EditorGUILayout.BeginScrollView(menuScrollPos);
-        DrawBorder(listArea);
-        DrawBorder(infoArea);
-        //EditorGUILayout.BeginHorizontal();
+
+        if (windowSize != window.position.size)
+        { 
+            windowSize = window.position.size;
+        }
+
+        //DrawBorder(itemListArea);
+        //DrawBorder(infoArea);
+        EditorGUILayout.BeginHorizontal();
         DrawMenuItems();
         DrawQuestInfo();
-        //EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.EndHorizontal();
         GUILayout.EndArea();
-        //EditorGUILayout.EndScrollView();
+
+        if (Event.current.type == EventType.MouseDown)
+        {
+            EditorGUI.FocusTextInControl(null);
+            Repaint();
+            //Debug.Log(Selection.activeObject.name);
+        }
     }
 
     private void OnEnable()
     {
+        window = GetWindow(typeof(DataBaseEditor));
+        if (questDB == null) questDB = AssetDatabase.LoadAssetAtPath<QuestDatabase>("Assets/Database/questDB.asset");
+        Undo.undoRedoPerformed += OnUndo;
     }
 
-    // draw list of databases
-    void DrawMenuList()
+    void OnUndo()
     {
 
     }
@@ -51,38 +71,36 @@ public class DataBaseEditor : EditorWindow
     // draw list of items in DB
     void DrawMenuItems()
     {
-        GUILayout.BeginArea(listArea);
-        listScrollPos = EditorGUILayout.BeginScrollView(listScrollPos);
+
+        //GUILayout.BeginArea(itemListArea);
+        EditorGUILayout.BeginVertical(GUILayout.Width(itemListArea.width));
         DrawQuestMenuItems();
-        GUILayout.EndScrollView();
-        if (GUILayout.Button("x"))
+        if (GUILayout.Button("x")
+            && questDB.data.Count > 0)
         {
-            
+            questDB.data.RemoveAt(questDB.data.Count - 1);
         }
-        GUILayout.EndArea();
+        if (GUILayout.Button("+"))
+        {
+            questDB.data.Add(new QuestData(id: (questDB.data.Count + 1).ToString()));
+        }
+        EditorGUILayout.EndVertical();
+        //GUILayout.EndArea();
     }
 
     void DrawQuestMenuItems()
     {
+        itemListScrollPos = EditorGUILayout.BeginScrollView(itemListScrollPos,GUILayout.Height(itemListArea.height));
         for (int x = 0; x < questDB.GetQuestCount(); x++)
         {
-            string id = questDB.GetAllQuests()[x].ID;
-            if (GUILayout.Button(id))
+            QuestData quest = questDB.GetAllQuests()[x];
+            if (GUILayout.Button(quest.ID))
             {
-                curQuest = questDB.GetFile(id);
+                Undo.RecordObject(this, "Select quest");
+                curQuest = quest;
             }
         }
-    }
-
-    // draw item info
-    void DrawItemInfo()
-    {
-        GUILayout.BeginArea(infoArea);
-        
-        EditorGUILayout.LabelField("Quest Title: ");
-        EditorGUILayout.TextField("text");
-
-        GUILayout.EndArea();
+        EditorGUILayout.EndScrollView();
     }
 
     void DrawQuestInfo()
@@ -92,31 +110,75 @@ public class DataBaseEditor : EditorWindow
 
         QuestData newQuest = new QuestData();
 
-        GUILayout.BeginArea(infoArea);
+        //GUILayout.BeginArea(infoArea);
+        EditorGUILayout.BeginVertical(GUILayout.Width(infoArea.width));
 
-        newQuest.Title = EditorGUILayout.TextField("Quest Title: ", curQuest.Title);
+        // Draw quest title
+        // adding tooltips to editor https://answers.unity.com/questions/914081/tooltips-in-editor-windows.html
+        newQuest.Title = EditorGUILayout.TextField(new GUIContent("Title: ", "Name to appear in quest lists"), curQuest.Title);
+
+        DrawQuestDescription(newQuest);
 
 
-        EditorGUILayout.LabelField("Description:");
+        DrawObjectives(newQuest);
+
+        EditorGUILayout.Space(20);
+
+        // Draw rewards
+        newQuest.Reward = EditorGUILayout.TextField("Reward: ", curQuest.Reward);
+
+        //GUILayout.EndArea();
+        EditorGUILayout.EndVertical();
+        if (EditorGUI.EndChangeCheck())
+        {
+            questDB.EditQuest(curQuest.ID, newQuest);
+        }
+
+    }
+
+    private void DrawQuestDescription(QuestData newQuest)
+    {
+        // Draw description
+        EditorGUILayout.LabelField(new GUIContent("Description: ", "Information about the quest"));
         GUIStyle style = new GUIStyle(EditorStyles.textArea)
         {
             wordWrap = true
         };
         newQuest.Description = EditorGUILayout.TextArea(curQuest.Description, style, GUILayout.Width(infoArea.width), GUILayout.Height(50));
+    }
+
+    private void DrawObjectives(QuestData newQuest)
+    {
+        // Draw objectives
+        objScrollPos = EditorGUILayout.BeginScrollView(objScrollPos, GUILayout.Height(100));
 
         EditorGUILayout.LabelField("Objectives: ");
+
         newQuest.Objectives = new List<Objective>(curQuest.Objectives);
+
         for (int x = 0; x < curQuest.ObjectiveCount; x++)
         {
-            newQuest.Objectives[x] = (Objective)EditorGUILayout.ObjectField(curQuest.Objectives[x], typeof(Objective),allowSceneObjects: false);
+            newQuest.Objectives[x] = (Objective)EditorGUILayout.ObjectField(
+                curQuest.Objectives[x],
+                typeof(Objective),
+                allowSceneObjects: false);
         }
-        newQuest.Reward = EditorGUILayout.TextField("Reward: ", curQuest.Reward);
 
-        GUILayout.EndArea();
-        if(EditorGUI.EndChangeCheck())
+        EditorGUILayout.EndScrollView();
+
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Remove last objective")
+            && newQuest.ObjectiveCount > 0)
         {
-            questDB.EditQuest(curQuest.ID, newQuest);
+            newQuest.Objectives.RemoveAt(newQuest.ObjectiveCount - 1);
         }
+        if (GUILayout.Button("Add new objective"))
+        {
+            newQuest.Objectives.Add(null);
+        }
+
+        EditorGUILayout.EndHorizontal();
     }
 
     void DrawBorder(Rect area) 

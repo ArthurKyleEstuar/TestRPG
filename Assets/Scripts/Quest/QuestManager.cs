@@ -24,7 +24,7 @@ public class QuestManager : BaseManager<QuestManager>
 
         curDB = Instantiate(new QuestDatabase());
         if (questMasterDB != null)
-            curDB.AddQuests(questMasterDB.GetAllQuests());
+            curDB.AddQuestsCopy(questMasterDB.GetAllQuests());
     }
 
     public void AcceptQuest(string id)
