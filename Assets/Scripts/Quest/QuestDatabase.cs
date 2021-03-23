@@ -61,7 +61,7 @@ public class QuestDatabase : BaseDatabase<QuestData>
         QuestData quest = GetFile(id);
         if (quest == newQuest) return;
 
-        Undo.RecordObject(this, "Edit Quest");
+        //Undo.RecordObject(this, "Edit Quest");
         SetQuest(quest, newQuest);
         EditorUtility.SetDirty(this);
     }
