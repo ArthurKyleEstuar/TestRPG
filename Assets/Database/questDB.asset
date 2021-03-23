@@ -16,14 +16,11 @@ MonoBehaviour:
   - id: test
     title: sdhfsdflsj
     description: mxladl;kqdasjdadlasdlasndlandlasndklansdklansldnaskdnaskldnaskdnaskldnaskdnaksdnkasndkasndkasndkasndkasndkasn
-    objectives:
-    - {fileID: 11400000, guid: 4ea4b2892cd42c14883162701d76011b, type: 2}
-    - {fileID: 0}
+    objectives: []
     rewards: 
   - id: sample
     title: 
     description: Pick up trash on the ground
     objectives:
     - {fileID: 11400000, guid: 4ea4b2892cd42c14883162701d76011b, type: 2}
-    - {fileID: 0}
     rewards: 

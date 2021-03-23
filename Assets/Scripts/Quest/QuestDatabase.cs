@@ -68,6 +68,7 @@ public class QuestDatabase : BaseDatabase<QuestData>
 
     void SetQuest(QuestData oldQuest, QuestData newQuest)
     {
+        oldQuest.SetID(newQuest.ID);
         oldQuest.Title = newQuest.Title;
         oldQuest.Description = newQuest.Description;
         oldQuest.Objectives = newQuest.Objectives;
