@@ -30,13 +30,18 @@ public class QuestEditor : BaseDatabaseEditor
 
     protected override void OnEnable()
     {
-        base.OnEnable();
         window = GetWindow(typeof(QuestEditor));
         if (questDB == null) questDB = AssetDatabase.LoadAssetAtPath<QuestDatabase>("Assets/Database/questDB.asset");
     }
 
     #region General_Functions
-    // draw exra item list buttons
+    protected override void DrawHeader()
+    {
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Quests", GUILayout.Width(itemListArea.width));
+        EditorGUILayout.LabelField("Information", GUILayout.Width(itemInfoArea.width));
+        EditorGUILayout.EndHorizontal();
+    }
     protected override void DrawItemListButtons()
     {
         // Remove last item on list
@@ -84,12 +89,14 @@ public class QuestEditor : BaseDatabaseEditor
         //GUILayout.BeginArea(infoArea);
 
         EditorGUILayout.BeginVertical(GUILayout.Width(itemInfoArea.width));
+
         DrawQuestID(newQuest, width);
         DrawQuestTitle(newQuest, width);
         DrawQuestDescription(newQuest, width);
         DrawQuestObjectives(newQuest, width);
         EditorGUILayout.Space(20);
         DrawQuestRewards(newQuest, width);
+
         EditorGUILayout.EndVertical();
         //GUILayout.EndArea();
 
@@ -98,7 +105,6 @@ public class QuestEditor : BaseDatabaseEditor
             questDB.EditQuest(curQuest.ID, newQuest);
         }
     }
-
     private void DrawQuestID(QuestData newQuest, float width)
     {
         newQuest.SetID(EditorGUILayout.TextField(
@@ -106,7 +112,6 @@ public class QuestEditor : BaseDatabaseEditor
             curQuest.ID,
             GUILayout.MaxWidth(width)));
     }
-
     private void DrawQuestTitle(QuestData newQuest, float width)
     {
         // adding tooltips to editor https://answers.unity.com/questions/914081/tooltips-in-editor-windows.html

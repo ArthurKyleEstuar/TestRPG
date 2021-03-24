@@ -24,7 +24,7 @@ MonoBehaviour:
     x: 2
     y: 32
     width: 300
-    height: 200
+    height: 220
   checkQuestAvailability: 0
   questIdToCheck: 
   onEnterActions: 
@@ -48,7 +48,7 @@ MonoBehaviour:
   - {fileID: 490720984446246464}
   - {fileID: 6396789128576163464}
   newNodeOffset: {x: 250, y: 0}
-  defaultNodeSize: {x: 300, y: 200}
+  defaultNodeSize: {x: 300, y: 220}
 --- !u!114 &283791869387640376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
     x: 339
     y: 40
     width: 300
-    height: 200
+    height: 220
   checkQuestAvailability: 1
   questIdToCheck: test
   onEnterActions: 
@@ -100,7 +100,7 @@ MonoBehaviour:
     x: 671
     y: 33
     width: 300
-    height: 200
+    height: 220
   checkQuestAvailability: 0
   questIdToCheck: 
   onEnterActions: test
@@ -128,7 +128,7 @@ MonoBehaviour:
     x: 340
     y: 241
     width: 300
-    height: 200
+    height: 220
   checkQuestAvailability: 0
   questIdToCheck: 
   onEnterActions: 
@@ -155,7 +155,7 @@ MonoBehaviour:
     x: 666
     y: 242
     width: 300
-    height: 200
+    height: 220
   checkQuestAvailability: 0
   questIdToCheck: 
   onEnterActions: 

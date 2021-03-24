@@ -32,17 +32,17 @@ public class DialogueNode : ScriptableObject
     [SerializeField] private string onEnterActions;
     [SerializeField] private string onExitActions;
 
-    public NodeColor    GetNodeColor()      => nodeColor;
-    public string       GetSpeaker()        => speaker;
-    public string       GetText()           => text;
-    public AudioClip    GetAudioClip()      => audioClip;
-    public List<string> GetChildren()       => children;
-    public Rect         GetRect()           => rect;
+    public NodeColor    GetNodeColor()  => nodeColor;
+    public string       GetSpeaker()    => speaker;
+    public string       GetText()       => text;
+    public AudioClip    GetAudioClip()  => audioClip;
+    public List<string> GetChildren()   => children;
+    public Rect         GetRect()       => rect;
 
-    public bool GetCheckQuestAvail() => checkQuestAvailability;
-    public string GetQuestId() => questIdToCheck;
-    public string       GetEnterActions()   => onEnterActions;
-    public string       GetExitActions()    => onExitActions;
+    public bool         GetCheckQuestAvail()    => checkQuestAvailability;
+    public string       GetQuestId()            => questIdToCheck;
+    public string       GetEnterActions()       => onEnterActions;
+    public string       GetExitActions()        => onExitActions;
 
 #if UNITY_EDITOR
     public void SetNodeColor(NodeColor color)
@@ -80,11 +80,13 @@ public class DialogueNode : ScriptableObject
     }
     public void SetCheckQuest(bool newCheckQuest)
     {
+        RecordUndo("Edit Node Check Quest");
         checkQuestAvailability = newCheckQuest;
         EditorUtility.SetDirty(this);
     }
     public void SetQuestId(string newQuestId)
     {
+        RecordUndo("Edit Node Quest ID");
         questIdToCheck = newQuestId;
         EditorUtility.SetDirty(this);
     }

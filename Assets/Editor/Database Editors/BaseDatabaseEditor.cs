@@ -8,15 +8,18 @@ public abstract class BaseDatabaseEditor : EditorWindow
 {
     private Vector2 itemListScrollPos;
 
+    #region Draw_Area
     // entire workable canvas
     protected readonly Rect canvasArea = new Rect(10, 10, 1000, 610);
+    protected readonly Rect headerArea = new Rect(0, 0, 1000, 20);
     // section for list items
-    protected readonly Rect itemListArea = new Rect(00, 00, 150, 600);
+    protected readonly Rect itemListArea = new Rect(00, 20, 150, 580);
     // section for the database info
-    protected readonly Rect itemInfoArea = new Rect(150, 00, 600, 600);
+    protected readonly Rect itemInfoArea = new Rect(150, 20, 600, 580);
+    #endregion
 
     protected EditorWindow window;
-    protected Vector2 windowSize = new Vector2();
+    //protected Vector2 windowSize = new Vector2();
 
     // figure out how to do this
     protected virtual void OnEnable() { }
@@ -26,14 +29,17 @@ public abstract class BaseDatabaseEditor : EditorWindow
         //DrawBorder(canvasArea);
         GUILayout.BeginArea(canvasArea);
 
-        if (windowSize != window.position.size)
-        {
-            windowSize = window.position.size;
-        }
+        // unneeded function for now
+        //if (windowSize != window.position.size)
+        //{
+        //    windowSize = window.position.size;
+        //}
 
         // draw some borders to define areas
         DrawBorder(itemListArea);
         DrawBorder(itemInfoArea);
+
+        DrawHeader();
 
         EditorGUILayout.BeginHorizontal();
 
@@ -49,6 +55,15 @@ public abstract class BaseDatabaseEditor : EditorWindow
             EditorGUI.FocusTextInControl(null);
             Repaint();
         }
+    }
+
+    // draw area labels
+    protected virtual void DrawHeader()
+    {
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("List", GUILayout.Width(itemListArea.width));
+        EditorGUILayout.LabelField("Information", GUILayout.Width(itemInfoArea.width));
+        EditorGUILayout.EndHorizontal();
     }
 
     // draw items in the db
@@ -68,7 +83,7 @@ public abstract class BaseDatabaseEditor : EditorWindow
 
         EditorGUILayout.EndVertical();
     }
-    // modifiable override for menu items
+    // override for drawing menu items
     protected virtual void DrawMenuItems()
     {
         throw new NotImplementedException();
@@ -89,14 +104,14 @@ public abstract class BaseDatabaseEditor : EditorWindow
         //    curDB.data.Add(new QuestData(id: (curDB.data.Count + 1).ToString()));
         //}
     }
-
+    // override for drawing item info
     protected virtual void DrawItemInfo()
     {
         throw new NotImplementedException();
     }
 
-
-    protected void DrawBorder(Rect area)
+    // draw border around defined areas
+    private void DrawBorder(Rect area)
     {
         //area.width += 10;
         //area.height += 10;
