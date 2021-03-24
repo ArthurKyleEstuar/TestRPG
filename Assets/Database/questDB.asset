@@ -20,8 +20,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 582812ab3d73b1f42871df3b028ab644, type: 2}
     rewards: Nothing
   - id: sample
-    title: 
+    title: Pick up ttrash
     description: Pick up trash on the ground
     objectives:
     - {fileID: 11400000, guid: 4ea4b2892cd42c14883162701d76011b, type: 2}
-    rewards: 
+    rewards: Nothing

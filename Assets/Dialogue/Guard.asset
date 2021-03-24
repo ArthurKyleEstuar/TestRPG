@@ -74,7 +74,7 @@ MonoBehaviour:
     width: 300
     height: 220
   checkQuestAvailability: 1
-  questIdToCheck: test
+  questIdToCheck: sample
   onEnterActions: 
   onExitActions: 
 --- !u!114 &490720984446246464
@@ -103,7 +103,7 @@ MonoBehaviour:
     height: 220
   checkQuestAvailability: 0
   questIdToCheck: 
-  onEnterActions: test
+  onEnterActions: sample
   onExitActions: 
 --- !u!114 &2234580028579586208
 MonoBehaviour:
