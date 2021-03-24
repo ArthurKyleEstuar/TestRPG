@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
   - id: test
-    title: sdhfsdflsj
-    description: mxladl;kqdasjdadlasdlasndlandlasndklansdklansldnaskdnaskldnaskdnaskldnaskdnaksdnkasndkasndkasndkasndkasndkasn
-    objectives: []
-    rewards: 
+    title: Talk to Guard
+    description: The guard looks like he has something important to say
+    objectives:
+    - {fileID: 11400000, guid: 582812ab3d73b1f42871df3b028ab644, type: 2}
+    rewards: Nothing
   - id: sample
     title: 
     description: Pick up trash on the ground

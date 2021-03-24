@@ -75,6 +75,8 @@ public class QuestEditor : BaseDatabaseEditor
     private void DrawQuestInfo()
     {
         if (curQuest == null) return;
+        float width = itemInfoArea.width - 10;
+
         EditorGUI.BeginChangeCheck();
 
         QuestData newQuest = new QuestData();
@@ -82,12 +84,12 @@ public class QuestEditor : BaseDatabaseEditor
         //GUILayout.BeginArea(infoArea);
 
         EditorGUILayout.BeginVertical(GUILayout.Width(itemInfoArea.width));
-        DrawQuestID(newQuest);
-        DrawQuestTitle(newQuest);
-        DrawQuestDescription(newQuest);
-        DrawQuestObjectives(newQuest);
+        DrawQuestID(newQuest, width);
+        DrawQuestTitle(newQuest, width);
+        DrawQuestDescription(newQuest, width);
+        DrawQuestObjectives(newQuest, width);
         EditorGUILayout.Space(20);
-        DrawQuestRewards(newQuest);
+        DrawQuestRewards(newQuest, width);
         EditorGUILayout.EndVertical();
         //GUILayout.EndArea();
 
@@ -97,21 +99,23 @@ public class QuestEditor : BaseDatabaseEditor
         }
     }
 
-    private void DrawQuestID(QuestData newQuest)
+    private void DrawQuestID(QuestData newQuest, float width)
     {
         newQuest.SetID(EditorGUILayout.TextField(
             "ID:",
-            curQuest.ID));
+            curQuest.ID,
+            GUILayout.MaxWidth(width)));
     }
 
-    private void DrawQuestTitle(QuestData newQuest)
+    private void DrawQuestTitle(QuestData newQuest, float width)
     {
         // adding tooltips to editor https://answers.unity.com/questions/914081/tooltips-in-editor-windows.html
         newQuest.Title = EditorGUILayout.TextField(
             new GUIContent("Title: ", "Name to appear in quest lists"),
-            curQuest.Title);
+            curQuest.Title,
+            GUILayout.Width(width));
     }
-    private void DrawQuestDescription(QuestData newQuest)
+    private void DrawQuestDescription(QuestData newQuest, float width)
     {
         EditorGUILayout.LabelField(new GUIContent("Description: ", "Information about the quest"));
         GUIStyle style = new GUIStyle(EditorStyles.textArea)
@@ -121,10 +125,10 @@ public class QuestEditor : BaseDatabaseEditor
         newQuest.Description = EditorGUILayout.TextArea(
             curQuest.Description,
             style,
-            GUILayout.Width(itemInfoArea.width),
+            GUILayout.Width(width),
             GUILayout.Height(50));
     }
-    private void DrawQuestObjectives(QuestData newQuest)
+    private void DrawQuestObjectives(QuestData newQuest, float width)
     {
         objScrollPos = EditorGUILayout.BeginScrollView(objScrollPos, GUILayout.Height(100));
 
@@ -137,16 +141,17 @@ public class QuestEditor : BaseDatabaseEditor
             newQuest.Objectives[x] = (Objective)EditorGUILayout.ObjectField(
                 curQuest.Objectives[x],
                 typeof(Objective),
-                allowSceneObjects: false);
+                allowSceneObjects: false,
+                GUILayout.Width(width));
         }
 
         EditorGUILayout.EndScrollView();
 
-        DrawQuestObjectiveButtons(newQuest);
+        DrawQuestObjectiveButtons(newQuest, width);
     }
-    private void DrawQuestObjectiveButtons(QuestData newQuest)
+    private void DrawQuestObjectiveButtons(QuestData newQuest, float width)
     {
-        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.BeginHorizontal(GUILayout.Width(width));
 
         // Remove last objective slot
         if (GUILayout.Button("Remove last objective")
@@ -163,10 +168,13 @@ public class QuestEditor : BaseDatabaseEditor
 
         EditorGUILayout.EndHorizontal();
     }
-    private void DrawQuestRewards(QuestData newQuest)
+    private void DrawQuestRewards(QuestData newQuest, float width)
     {
         // Draw rewards
-        newQuest.Reward = EditorGUILayout.TextField("Reward: ", curQuest.Reward);
+        newQuest.Reward = EditorGUILayout.TextField(
+            "Reward: ",
+            curQuest.Reward,
+            GUILayout.Width(width));
     }
     #endregion
 }

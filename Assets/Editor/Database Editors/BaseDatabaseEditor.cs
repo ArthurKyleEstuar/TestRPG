@@ -9,7 +9,7 @@ public abstract class BaseDatabaseEditor : EditorWindow
     private Vector2 itemListScrollPos;
 
     // entire workable canvas
-    protected readonly Rect canvasArea = new Rect(10, 10, 1000, 600);
+    protected readonly Rect canvasArea = new Rect(10, 10, 1000, 610);
     // section for list items
     protected readonly Rect itemListArea = new Rect(00, 00, 150, 600);
     // section for the database info
@@ -23,7 +23,7 @@ public abstract class BaseDatabaseEditor : EditorWindow
 
     private void OnGUI()
     {
-        DrawBorder(canvasArea);
+        //DrawBorder(canvasArea);
         GUILayout.BeginArea(canvasArea);
 
         if (windowSize != window.position.size)
@@ -31,12 +31,15 @@ public abstract class BaseDatabaseEditor : EditorWindow
             windowSize = window.position.size;
         }
 
+        // draw some borders to define areas
         DrawBorder(itemListArea);
         DrawBorder(itemInfoArea);
 
         EditorGUILayout.BeginHorizontal();
+
         DrawItemList();
         DrawItemInfo();
+
         EditorGUILayout.EndHorizontal();
         GUILayout.EndArea();
 
@@ -51,16 +54,18 @@ public abstract class BaseDatabaseEditor : EditorWindow
     // draw items in the db
     protected void DrawItemList()
     {
-        //GUILayout.BeginArea(itemListArea);
-        EditorGUILayout.BeginVertical(GUILayout.Width(itemListArea.width));
+        EditorGUILayout.BeginVertical(
+            GUILayout.Height(itemListArea.height - 5),
+            GUILayout.Width(itemListArea.width));
+
         itemListScrollPos = EditorGUILayout.BeginScrollView(itemListScrollPos);
 
         DrawMenuItems();
 
         EditorGUILayout.EndScrollView();
+
         DrawItemListButtons();
 
-        //EditorGUILayout.Space(10);
         EditorGUILayout.EndVertical();
     }
     // modifiable override for menu items
@@ -94,7 +99,7 @@ public abstract class BaseDatabaseEditor : EditorWindow
     protected void DrawBorder(Rect area)
     {
         //area.width += 10;
-        area.height += 10;
+        //area.height += 10;
         Vector3[] positions = new Vector3[8];
         Vector2 topLeft = area.position;
         Vector2 topRight = new Vector2(area.x + area.width, area.y);
