@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 public enum QuestState
 {
-    NotAccepted = 0,
+    Available = 0,
     Ongoing     = 1,
     Completed   = 2,
     Failed      = 3,
@@ -20,7 +20,7 @@ public class QuestData : BaseData
     [SerializeField] private string             rewards;
     private QuestState state;
 
-    public QuestData(string id = "", string title = "", string description = "", List<Objective> objectives = null, string rewards = "", QuestState state = QuestState.NotAccepted)
+    public QuestData(string id = "", string title = "", string description = "", List<Objective> objectives = null, string rewards = "", QuestState state = QuestState.Available)
     {
         this.id = id;
         this.title = title;

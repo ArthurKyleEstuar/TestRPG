@@ -13,6 +13,9 @@ public class QuestManager : BaseManager<QuestManager>
     public event System.Action<string> OnQuestAccepted;
     public event System.Action<string> OnQuestCompleted;
 
+    // unnaccepted quests
+    public List<QuestData> AvailableQuests => curDB.GetAvailableQuests();
+    // accepted quests (ongoing, completed, failed)
     public List<QuestData> AcceptedQuests => curDB.GetAcceptedQuests();
     public List<QuestData> OngoingQuests => curDB.GetOngoingQuests();
     public List<QuestData> CompletedQuests => curDB.GetCompletedQuests();
@@ -31,7 +34,7 @@ public class QuestManager : BaseManager<QuestManager>
     {
         QuestData quest = curDB.GetFile(id);
         if (quest == null) return;
-        if (quest.State != QuestState.NotAccepted) return;
+        if (quest.State != QuestState.Available) return;
 
         quest.StartQuest();
         quest.OnQuestCompleted += CompleteQuest;
@@ -64,7 +67,8 @@ public class QuestManager : BaseManager<QuestManager>
 
     public bool IsQuestAvailable(string id)
     {
-        return !AcceptedQuests.Exists(obj => obj.ID == id);
+        // changed to check available/not accepted quests
+        return AvailableQuests.Exists(obj => obj.ID == id);
     }
 
     void SaveQuests()

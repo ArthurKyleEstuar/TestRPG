@@ -74,6 +74,7 @@ public class DialogueUI : MonoBehaviour
             }
         }
 
+        // alternate display between text dialogue or choices
         textWindow.SetActive(!manager.HasChoices);
         choiceWindow.SetActive(manager.HasChoices);
 
@@ -98,6 +99,7 @@ public class DialogueUI : MonoBehaviour
     {
         foreach (DialogueNode choice in manager.GetChoices())
         {
+            // skip choice if quest is not available
             if(choice.GetCheckQuestAvail())
             {
                 if (!QuestManager.Instance.IsQuestAvailable(choice.GetQuestId())) continue;

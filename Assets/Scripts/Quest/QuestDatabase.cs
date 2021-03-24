@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
-[CreateAssetMenu(menuName = "QuestDB")]
+
+[CreateAssetMenu(menuName = "Database/QuestDB")]
 public class QuestDatabase : BaseDatabase<QuestData>
 {
     /// <summary>
@@ -18,9 +19,9 @@ public class QuestDatabase : BaseDatabase<QuestData>
     /// Gets all quests that have not been accepted
     /// </summary>
     /// <returns></returns>
-    public List<QuestData> GetNotAcceptedQuests()
+    public List<QuestData> GetAvailableQuests()
     {
-        return data.FindAll(quest => quest.State == QuestState.NotAccepted);
+        return data.FindAll(quest => quest.State == QuestState.Available);
     }
     /// <summary>
     /// Gets all quests that have been accepted.  Quests may be ongoing, completed, or failed
@@ -28,7 +29,7 @@ public class QuestDatabase : BaseDatabase<QuestData>
     /// <returns></returns>
     public List<QuestData> GetAcceptedQuests()
     {
-        return data.FindAll(quest => quest.State != QuestState.NotAccepted);
+        return data.FindAll(quest => quest.State != QuestState.Available);
     }
     /// <summary>
     /// Gets all quests that have been accepted but not completed

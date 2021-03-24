@@ -23,6 +23,7 @@ public class DialogueEditor : EditorWindow
 {
     Dialogue        selectedDialogue    = null;
 
+    #region NonSerialized_Fields
     [NonSerialized]
     DialogueNode    draggedNode         = null;
     [NonSerialized]
@@ -39,8 +40,9 @@ public class DialogueEditor : EditorWindow
     Vector2         scrollPosition;
     [NonSerialized]
     Vector2         mouseOffset;
+    #endregion
 
-    Vector2         draggingCanvasOffset;
+    Vector2 draggingCanvasOffset;
 
     const float canvasSize = 4000;
     const float bgSize = 50;
@@ -74,7 +76,11 @@ public class DialogueEditor : EditorWindow
         // event when selected item has changed
         Selection.selectionChanged += OnSelectionChanged;
 
-        #region Normal Node Style
+        SetNodeStyle();
+    }
+
+    private void SetNodeStyle()
+    {
         // designing node look
         nodeStyle = new GUIStyle();
         // change node background               range of node0 to node6
@@ -84,8 +90,6 @@ public class DialogueEditor : EditorWindow
         nodeStyle.padding = new RectOffset(20, 20, 20, 20);
         // change background size
         nodeStyle.border = new RectOffset(12, 12, 12, 12);
-        #endregion
-
     }
 
     // if selected object is of type dialogue, refresh dialogue window
@@ -125,12 +129,16 @@ public class DialogueEditor : EditorWindow
 
             // Scrolling the canvas
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+
+            DrawToolbar();
+
             // Canvas size
             Rect canvas = GUILayoutUtility.GetRect(canvasSize, canvasSize);
             Texture2D bgTex = Resources.Load("background") as Texture2D;
 
             Rect texCoords = new Rect(0, 0, canvasSize / bgSize, canvasSize / bgSize);
 
+            // draw window background
             GUI.DrawTextureWithTexCoords(canvas, bgTex, texCoords);
 
             // Draw connections between nodes first so they draw under the nodes
@@ -144,7 +152,6 @@ public class DialogueEditor : EditorWindow
                 DrawNode(node);
             }
 
-            DrawToolbar();
 
             EditorGUILayout.EndScrollView();
 
@@ -161,6 +168,7 @@ public class DialogueEditor : EditorWindow
         }
     }
 
+    // handle mouse events
     private void ProcessEvents()
     {
         if (Event.current.type == EventType.MouseDown && draggedNode == null)
@@ -223,61 +231,74 @@ public class DialogueEditor : EditorWindow
         GUILayout.EndArea();
     }
 
+
     private void DrawNode(DialogueNode node)
     {
         GUIStyle style = nodeStyle;
         // Set node color
-        switch(node.GetNodeColor())
-        {
-            case NodeColor.Gray:
-                style.normal.background 
-                    = EditorGUIUtility.Load("node0") as Texture2D;
-                break;
-            case NodeColor.Blue:
-                style.normal.background 
-                    = EditorGUIUtility.Load("node1") as Texture2D;
-                break;
-            case NodeColor.LightBlue:
-                style.normal.background 
-                    = EditorGUIUtility.Load("node2") as Texture2D;
-                break;
-            case NodeColor.Green:
-                style.normal.background 
-                    = EditorGUIUtility.Load("node3") as Texture2D;
-                break;
-            case NodeColor.Yellow:
-                style.normal.background 
-                    = EditorGUIUtility.Load("node4") as Texture2D;
-                break;
-            case NodeColor.Orange:
-                style.normal.background 
-                    = EditorGUIUtility.Load("node5") as Texture2D;
-                break;
-            case NodeColor.Red:
-                style.normal.background 
-                    = EditorGUIUtility.Load("node6") as Texture2D;
-                break;
-        }
+        EditNodeColor(node, style);
 
         // draws a box which represents the node
         GUILayout.BeginArea(node.GetRect(), nodeStyle);
 
-        EditorGUIUtility.labelWidth = 100f;
+        // draw input field
+        DrawInputFields(node);
+        DrawNodeButtons(node);
+
+        GUILayout.EndArea();
+    }
+    private void EditNodeColor(DialogueNode node, GUIStyle style)
+    {
+        switch (node.GetNodeColor())
+        {
+            case NodeColor.Gray:
+                style.normal.background
+                    = EditorGUIUtility.Load("node0") as Texture2D;
+                break;
+            case NodeColor.Blue:
+                style.normal.background
+                    = EditorGUIUtility.Load("node1") as Texture2D;
+                break;
+            case NodeColor.LightBlue:
+                style.normal.background
+                    = EditorGUIUtility.Load("node2") as Texture2D;
+                break;
+            case NodeColor.Green:
+                style.normal.background
+                    = EditorGUIUtility.Load("node3") as Texture2D;
+                break;
+            case NodeColor.Yellow:
+                style.normal.background
+                    = EditorGUIUtility.Load("node4") as Texture2D;
+                break;
+            case NodeColor.Orange:
+                style.normal.background
+                    = EditorGUIUtility.Load("node5") as Texture2D;
+                break;
+            case NodeColor.Red:
+                style.normal.background
+                    = EditorGUIUtility.Load("node6") as Texture2D;
+                break;
+        }
+    }
+    private void DrawInputFields(DialogueNode node)
+    {
         node.SetNodeColor((NodeColor)EditorGUILayout.EnumPopup("Node Color", node.GetNodeColor()));
-
         node.SetSpeaker(EditorGUILayout.TextField("Speaker", node.GetSpeaker()));
-        // set up text field for variables
-        //                          text content,  text color
         node.SetText(EditorGUILayout.TextField("Text", node.GetText()));
-
         node.SetAudio((AudioClip)EditorGUILayout.ObjectField("Audio Clip", node.GetAudioClip(), typeof(AudioClip), allowSceneObjects: false));
+        
         node.SetCheckQuest(EditorGUILayout.Toggle("Check Quest", node.GetCheckQuestAvail()));
-        node.SetQuestId(EditorGUILayout.TextField("Quest ID", node.GetQuestId()));
+        if (node.GetCheckQuestAvail())
+        {
+            node.SetQuestId(EditorGUILayout.TextField("Quest ID", node.GetQuestId()));
+        }
 
         node.SetEnterAction(EditorGUILayout.TextField("Enter Actions", node.GetEnterActions()));
-
         node.SetExitAction(EditorGUILayout.TextField("Exit Actions", node.GetExitActions()));
-
+    }
+    private void DrawNodeButtons(DialogueNode node)
+    {
         GUILayout.BeginHorizontal();
 
         // delete button
@@ -294,9 +315,8 @@ public class DialogueEditor : EditorWindow
             creatingNode = node;
         }
         GUILayout.EndHorizontal();
-
-        GUILayout.EndArea();
     }
+
 
     private void DrawLinkButtons(DialogueNode node)
     {
@@ -331,7 +351,6 @@ public class DialogueEditor : EditorWindow
             }
         }
     }
-
     private void DrawConnections(DialogueNode node)
     {
         Vector3 startPos = new Vector2(node.GetRect().xMax, node.GetRect().center.y);

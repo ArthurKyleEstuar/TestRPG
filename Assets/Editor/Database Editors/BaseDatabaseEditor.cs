@@ -18,10 +18,10 @@ public abstract class BaseDatabaseEditor : EditorWindow
     protected readonly Rect itemInfoArea = new Rect(150, 20, 600, 580);
     #endregion
 
-    protected EditorWindow window;
+    //protected EditorWindow window;
     //protected Vector2 windowSize = new Vector2();
 
-    // figure out how to do this
+    // figure out how to make this more generic
     protected virtual void OnEnable() { }
 
     private void OnGUI()
@@ -88,7 +88,8 @@ public abstract class BaseDatabaseEditor : EditorWindow
     {
         throw new NotImplementedException();
     }
-    // find out how to do this
+    // override for setting up add and remove buttons
+    // find out how to convert this to generic editing
     protected virtual void DrawItemListButtons()
     {
         //// Remove last item on list

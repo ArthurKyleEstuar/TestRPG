@@ -30,7 +30,6 @@ public class QuestEditor : BaseDatabaseEditor
 
     protected override void OnEnable()
     {
-        window = GetWindow(typeof(QuestEditor));
         if (questDB == null) questDB = AssetDatabase.LoadAssetAtPath<QuestDatabase>("Assets/Database/questDB.asset");
     }
 
@@ -49,12 +48,14 @@ public class QuestEditor : BaseDatabaseEditor
             && questDB.data.Count > 0)
         {
             questDB.data.RemoveAt(questDB.data.Count - 1);
+            EditorGUI.FocusTextInControl(null);
         }
 
         // Add new item to the list
         if (GUILayout.Button("+"))
         {
             questDB.data.Add(new QuestData(id: (questDB.data.Count + 1).ToString()));
+            EditorGUI.FocusTextInControl(null);
         }
     }
     protected override void DrawMenuItems()
@@ -65,6 +66,7 @@ public class QuestEditor : BaseDatabaseEditor
             if (GUILayout.Button(quest.ID))
             {
                 curQuest = quest;
+                EditorGUI.FocusTextInControl(null);
             }
         }
     }
@@ -163,12 +165,14 @@ public class QuestEditor : BaseDatabaseEditor
             && newQuest.ObjectiveCount > 0)
         {
             newQuest.Objectives.RemoveAt(newQuest.ObjectiveCount - 1);
+            EditorGUI.FocusTextInControl(null);
         }
 
         // Add a new objective slot
         if (GUILayout.Button("Add new objective"))
         {
             newQuest.Objectives.Add(null);
+            EditorGUI.FocusTextInControl(null);
         }
 
         EditorGUILayout.EndHorizontal();
