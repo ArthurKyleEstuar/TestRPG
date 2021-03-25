@@ -21,34 +21,46 @@ using System;
 
 public class DialogueEditor : EditorWindow
 {
-    Dialogue        selectedDialogue    = null;
+    Dialogue selectedDialogue = null;
 
     #region NonSerialized_Fields
     [NonSerialized]
-    DialogueNode    draggedNode         = null;
+    DialogueNode draggedNode        = null;
     [NonSerialized]
-    GUIStyle        nodeStyle           = null; 
+    GUIStyle nodeStyle              = null;
     [NonSerialized]
-    DialogueNode    creatingNode        = null;
+    DialogueNode creatingNode       = null;
     [NonSerialized]
-    DialogueNode    deletingNode        = null;
+    DialogueNode deletingNode       = null;
     [NonSerialized]
-    DialogueNode    linkingParentNode   = null;
+    DialogueNode linkingParentNode  = null;
     [NonSerialized]
-    bool            isDraggingCanvas    = false;
+    bool isDraggingCanvas           = false;
     [NonSerialized]
-    Vector2         scrollPosition;
+    Vector2 scrollPosition;
     [NonSerialized]
-    Vector2         mouseOffset;
+    Vector2 mouseOffset;
     #endregion
 
     Vector2 draggingCanvasOffset;
 
+    //#region Zoom_Properties
+    //private const float kZoomMin = 0.1f;
+    //private const float kZoomMax = 10.0f;
+
+    //private readonly Rect _zoomArea = new Rect(0.0f, 75.0f, 600.0f, 300.0f - 100.0f);
+    //private float _zoom = 1.0f;
+    //private Vector2 _zoomCoordsOrigin = Vector2.zero;
+    //#endregion
+
     const float canvasSize = 4000;
     const float bgSize = 50;
+
+    private EditorWindow window;
+
     // create menu button for opening window
     [MenuItem("Window/Dialogue Editor")]
-    public static void ShowEditorWindow()
+    private static void ShowEditorWindow()
     {
         {
             /* creates editor window
@@ -60,7 +72,7 @@ public class DialogueEditor : EditorWindow
 
     // order of callbacks, when opening assets
     [OnOpenAsset(1)]
-    public static bool OnOpenAsset(int instanceID, int line)
+    private static bool OnOpenAsset(int instanceID, int line)
     {
         // if selected object is typeof dialogue, open/display dialogue editor window
         Dialogue dialogue = EditorUtility.InstanceIDToObject(instanceID) as Dialogue;
@@ -75,7 +87,7 @@ public class DialogueEditor : EditorWindow
     {
         // event when selected item has changed
         Selection.selectionChanged += OnSelectionChanged;
-
+        window = GetWindow<DialogueEditor>();
         SetNodeStyle();
     }
 
@@ -127,45 +139,70 @@ public class DialogueEditor : EditorWindow
         {
             ProcessEvents();
 
+            //if (canvasArea.width != window.position.width
+            //    || canvasArea.height != window.position.height)
+            //{
+            //    window.
+            //    canvasArea.width = window.position.width;
+            //    canvasArea.height = window.position.height;
+            //}
+
+            /*
+             * Draw Order: top to bottom
+             * BG - very back
+             * Connections - goes under nodes
+             * Nodes
+             * Toolbar - should be very top
+             */
+
             // Scrolling the canvas
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
-            DrawToolbar();
 
-            // Canvas size
-            Rect canvas = GUILayoutUtility.GetRect(canvasSize, canvasSize);
-            Texture2D bgTex = Resources.Load("background") as Texture2D;
-
-            Rect texCoords = new Rect(0, 0, canvasSize / bgSize, canvasSize / bgSize);
-
-            // draw window background
-            GUI.DrawTextureWithTexCoords(canvas, bgTex, texCoords);
-
-            // Draw connections between nodes first so they draw under the nodes
-            foreach (DialogueNode node in selectedDialogue.GetAllNodes())
-            {
-                DrawConnections(node);
-            }
-            // Draw nodes
-            foreach (DialogueNode node in selectedDialogue.GetAllNodes())
-            {
-                DrawNode(node);
-            }
-
+            DrawBackground();
+            DrawZoomedArea(); 
 
             EditorGUILayout.EndScrollView();
 
-            if(creatingNode != null)
+            DrawToolbar();
+
+            if (creatingNode != null)
             {
                 selectedDialogue.CreateNode(creatingNode);
                 creatingNode = null;
             }
-            if(deletingNode != null)
+            if (deletingNode != null)
             {
                 selectedDialogue.DeleteNode(deletingNode);
                 deletingNode = null;
             }
         }
+    }
+
+    private void DrawZoomedArea()
+    {
+        // Draw connections between nodes first so they draw under the nodes
+        foreach (DialogueNode node in selectedDialogue.GetAllNodes())
+        {
+            DrawConnections(node);
+        }
+        // Draw nodes
+        foreach (DialogueNode node in selectedDialogue.GetAllNodes())
+        {
+            DrawNode(node);
+        }
+    }
+
+    private static void DrawBackground()
+    {
+        // Canvas size
+        Rect canvas = GUILayoutUtility.GetRect(canvasSize, canvasSize);
+        Texture2D bgTex = Resources.Load("background") as Texture2D;
+
+        Rect texCoords = new Rect(0, 0, canvasSize / bgSize, canvasSize / bgSize);
+
+        // draw window background
+        GUI.DrawTextureWithTexCoords(canvas, bgTex, texCoords);
     }
 
     // handle mouse events
@@ -210,14 +247,33 @@ public class DialogueEditor : EditorWindow
             isDraggingCanvas = false;
             GUI.changed = false;
         }
+
+        //if (Event.current.type == EventType.ScrollWheel)
+        //{
+        //    Vector2 screenCoordsMousePos = Event.current.mousePosition;
+        //    Vector2 delta = Event.current.delta;
+        //    Vector2 zoomCoordsMousePos = ConvertScreenCoordsToZoomCoords(screenCoordsMousePos);
+        //    float zoomDelta = -delta.y / 150.0f;
+        //    float oldZoom = _zoom;
+        //    _zoom += zoomDelta;
+        //    _zoom = Mathf.Clamp(_zoom, kZoomMin, kZoomMax);
+        //    _zoomCoordsOrigin += (zoomCoordsMousePos - _zoomCoordsOrigin) - (oldZoom / _zoom) * (zoomCoordsMousePos - _zoomCoordsOrigin);
+
+        //    Event.current.Use();
+        //}
     }
+
+    //private Vector2 ConvertScreenCoordsToZoomCoords(Vector2 screenCoords)
+    //{
+    //    return (screenCoords - _zoomArea.TopLeft()) / _zoom + _zoomCoordsOrigin;
+    //}
 
     private void DrawToolbar()
     {
         //Rect rect = GetWindow<DialogueEditor>().position;
         //GUILayout.BeginHorizontal
-        Rect rect = new Rect(scrollPosition.x,
-            scrollPosition.y, 100, 100);
+        Rect rect = new Rect(0,
+            0, 100, 100);
         GUILayout.BeginArea(rect);
 
         if (GUILayout.Button("Reset node size"))

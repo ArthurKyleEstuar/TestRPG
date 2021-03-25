@@ -21,7 +21,6 @@ public class QuestEditor : BaseDatabaseEditor
 
     private QuestData curQuest;
 
-
     [MenuItem("Database/Quest Editor")]
     public static void OpenQuestWindow()
     {
@@ -41,8 +40,22 @@ public class QuestEditor : BaseDatabaseEditor
         EditorGUILayout.LabelField("Information", GUILayout.Width(itemInfoArea.width));
         EditorGUILayout.EndHorizontal();
     }
+    protected override void DrawMenuItems()
+    {
+        if (questDB == null) return;
+        for (int x = 0; x < questDB.GetQuestCount(); x++)
+        {
+            QuestData quest = questDB.GetAllQuests()[x];
+            if (GUILayout.Button(quest.ID))
+            {
+                curQuest = quest;
+                EditorGUI.FocusTextInControl(null);
+            }
+        }
+    }
     protected override void DrawItemListButtons()
     {
+        if (questDB == null) return;
         // Remove last item on list
         if (GUILayout.Button("x")
             && questDB.data.Count > 0)
@@ -58,21 +71,10 @@ public class QuestEditor : BaseDatabaseEditor
             EditorGUI.FocusTextInControl(null);
         }
     }
-    protected override void DrawMenuItems()
-    {
-        for (int x = 0; x < questDB.GetQuestCount(); x++)
-        {
-            QuestData quest = questDB.GetAllQuests()[x];
-            if (GUILayout.Button(quest.ID))
-            {
-                curQuest = quest;
-                EditorGUI.FocusTextInControl(null);
-            }
-        }
-    }
     // draw info panel
     protected override void DrawItemInfo()
     {
+        if (questDB == null) return;
         DrawQuestInfo();
     }
     #endregion
