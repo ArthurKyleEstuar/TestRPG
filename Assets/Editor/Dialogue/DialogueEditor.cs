@@ -49,7 +49,7 @@ public class DialogueEditor : EditorWindow
     private const float kZoomMax = 10.0f;
 
     private readonly Rect _zoomArea = new Rect(0.0f, 0.0f, 600.0f, 300.0f - 100.0f);
-
+    private readonly Rect canvasArea = new Rect(0, 0, 4000, 4000-100);
     private float _zoom = 1.0f;
     private Vector2 _zoomCoordsOrigin = Vector2.zero;
     #endregion
@@ -157,14 +157,31 @@ public class DialogueEditor : EditorWindow
              */
 
             // Scrolling the canvas
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
+
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             DrawBackground();
 
-            DrawNodes(); 
+            //Rect zoomArea = new Rect(0 - scrollPosition.x, 0 - scrollPosition.y, canvasSize, canvasSize);
+            //EditorZoomArea.Begin(_zoom, canvasArea);
+            //GUILayout.BeginArea(zoomArea);
+
+            // Draw connections between nodes first so they draw under the nodes
+            foreach (DialogueNode node in selectedDialogue.GetAllNodes())
+            {
+                DrawConnections(node);
+            }
+            // Draw nodes
+            foreach (DialogueNode node in selectedDialogue.GetAllNodes())
+            {
+                DrawNode(node);
+            }
+            //GUILayout.EndArea();
+            //EditorZoomArea.End();
 
             EditorGUILayout.EndScrollView();
 
+            //DrawNonZoomArea();
             DrawToolbar();
 
             if (creatingNode != null)
@@ -180,27 +197,11 @@ public class DialogueEditor : EditorWindow
         }
     }
 
-    private void DrawNodes()
-    {
-        Rect zoomArea = new Rect(0, 0, window.position.width, window.position.height);
-        EditorZoomArea.Begin(_zoom, zoomArea);
-        // Draw connections between nodes first so they draw under the nodes
-        foreach (DialogueNode node in selectedDialogue.GetAllNodes())
-        {
-            DrawConnections(node);
-        }
-        // Draw nodes
-        foreach (DialogueNode node in selectedDialogue.GetAllNodes())
-        {
-            DrawNode(node);
-        }
-        EditorZoomArea.End();
-    }
 
     private void DrawBackground()
     {
         // Canvas size
-        Rect canvas = GUILayoutUtility.GetRect(canvasSize, canvasSize);
+        Rect canvas = GUILayoutUtility.GetRect(canvasSize * _zoom, canvasSize * _zoom);
         Texture2D bgTex = Resources.Load("background") as Texture2D;
 
         Rect texCoords = new Rect(0, 0, canvasSize / bgSize / _zoom, canvasSize / bgSize / _zoom);
@@ -214,7 +215,8 @@ public class DialogueEditor : EditorWindow
     {
         if (Event.current.type == EventType.MouseDown && draggedNode == null)
         {
-            draggedNode = GetNodeAtPoint(Event.current.mousePosition + scrollPosition);
+            //draggedNode = GetNodeAtPoint(Event.current.mousePosition + scrollPosition);
+            draggedNode = GetNodeAtPoint(ConvertScreenCoordsToZoomCoords(Event.current.mousePosition + scrollPosition));
             if (draggedNode != null)
             {
                 mouseOffset = Event.current.mousePosition - draggedNode.GetRect().position;
@@ -224,7 +226,7 @@ public class DialogueEditor : EditorWindow
             {
                 // Record dragOffset and dragging
                 isDraggingCanvas = true;
-                draggingCanvasOffset = Event.current.mousePosition + scrollPosition;
+                draggingCanvasOffset = (Event.current.mousePosition + scrollPosition);
                 Selection.activeObject = selectedDialogue;
             }
         }
@@ -232,6 +234,7 @@ public class DialogueEditor : EditorWindow
         {
             // Update scrollPos
             scrollPosition = draggingCanvasOffset - Event.current.mousePosition;
+            //scrollPosition.x = Mathf.Clamp(scrollPosition.x,0,canvasSize )
             GUI.changed = true;
         }
         else if (Event.current.type == EventType.MouseDrag && draggedNode != null)
@@ -252,28 +255,28 @@ public class DialogueEditor : EditorWindow
             GUI.changed = false;
         }
 
-        if (Event.current.type == EventType.ScrollWheel)
-        {
-            Vector2 delta = Event.current.delta;
-            float zoomDelta = -delta.y / 150.0f;
-            _zoom += zoomDelta;
-            _zoom = Mathf.Clamp(_zoom, kZoomMin, kZoomMax);
 
-            Event.current.Use();
-        }
+        // mouse wheel zoom code
+
+        //if (Event.current.type == EventType.ScrollWheel)
+        //{
+        //    Vector2 delta = Event.current.delta;
+        //    float zoomDelta = -delta.y / 150.0f;
+        //    _zoom += zoomDelta;
+        //    _zoom = Mathf.Clamp(_zoom, kZoomMin, kZoomMax);
+
+        //    Event.current.Use();
+        //}
     }
-
-    //private Vector2 ConvertScreenCoordsToZoomCoords(Vector2 screenCoords)
-    //{
-    //    return (screenCoords - _zoomArea.TopLeft()) / _zoom + _zoomCoordsOrigin;
-    //}
 
     private void DrawToolbar()
     {
         //Rect rect = GetWindow<DialogueEditor>().position;
         //GUILayout.BeginHorizontal
 
-        EditorGUILayout.BeginHorizontal();
+        Rect toolbarArea = new Rect(window.position.width - 300, 0, 300-20, window.position.height);
+
+        GUILayout.BeginArea(toolbarArea);
 
         if (GUILayout.Button("Reset node size"))
         {
@@ -288,12 +291,22 @@ public class DialogueEditor : EditorWindow
             scrollPosition = Vector2.zero;
         }
 
-        if (GUILayout.Button("Reset zoom"))
-        {
-            _zoom = 1.0f;
-        }
+        //if (GUILayout.Button("Reset zoom"))
+        //{
+        //    _zoom = 1.0f;
+        //}
+        GUILayout.EndArea();
+    }
+    private void DrawNonZoomArea()
+    {
+        GUI.Box(new Rect(0.0f, 0.0f, 600.0f, 50.0f), "Adjust zoom of middle box with slider or mouse wheel.\nMove zoom area dragging with middle mouse button or Alt+left mouse button.");
+        _zoom = EditorGUI.Slider(new Rect(0.0f, 50.0f, 600.0f, 25.0f), _zoom, kZoomMin, kZoomMax);
+    }
+    private Vector2 ConvertScreenCoordsToZoomCoords(Vector2 screenCoords)
+    {
+        Rect zoomArea = new Rect(0, 0, canvasSize, canvasSize);
 
-        EditorGUILayout.EndHorizontal();
+        return (screenCoords - zoomArea.TopLeft()) / _zoom + scrollPosition;
     }
 
 

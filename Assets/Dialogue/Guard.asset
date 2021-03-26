@@ -21,8 +21,8 @@ MonoBehaviour:
   - 1cbccb81-52e6-4b17-8e18-acf207ca4af9
   rect:
     serializedVersion: 2
-    x: 3
-    y: 39
+    x: 43
+    y: 34
     width: 300
     height: 220
   checkQuestAvailability: 0
@@ -69,11 +69,11 @@ MonoBehaviour:
   - 7f020daf-c446-4d56-8049-90072467fc5f
   rect:
     serializedVersion: 2
-    x: 348
-    y: 43
+    x: 358.0611
+    y: 23.010834
     width: 300
     height: 220
-  checkQuestAvailability: 1
+  checkQuestAvailability: 0
   questIdToCheck: sample
   onEnterActions: 
   onExitActions: 
@@ -97,8 +97,8 @@ MonoBehaviour:
   children: []
   rect:
     serializedVersion: 2
-    x: 674
-    y: 44
+    x: 998.17426
+    y: 43.843735
     width: 300
     height: 220
   checkQuestAvailability: 0
@@ -125,8 +125,8 @@ MonoBehaviour:
   - 10697d06-3095-4e38-802c-11e34fde78c5
   rect:
     serializedVersion: 2
-    x: 360
-    y: 329
+    x: 374.22812
+    y: 327.8715
     width: 300
     height: 220
   checkQuestAvailability: 0
@@ -152,8 +152,8 @@ MonoBehaviour:
   children: []
   rect:
     serializedVersion: 2
-    x: 671
-    y: 326
+    x: 867.60016
+    y: 348.3883
     width: 300
     height: 220
   checkQuestAvailability: 0
