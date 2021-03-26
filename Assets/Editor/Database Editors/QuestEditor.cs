@@ -43,10 +43,12 @@ public class QuestEditor : BaseDatabaseEditor
     protected override void DrawMenuItems()
     {
         if (questDB == null) return;
+
         for (int x = 0; x < questDB.GetQuestCount(); x++)
         {
             QuestData quest = questDB.GetAllQuests()[x];
-            if (GUILayout.Button(quest.ID))
+            string label = string.Format("{0}: {1}", x + 1, quest.ID);
+            if (GUILayout.Button(label))
             {
                 curQuest = quest;
                 EditorGUI.FocusTextInControl(null);
@@ -57,6 +59,7 @@ public class QuestEditor : BaseDatabaseEditor
     {
         if (questDB == null) return;
         // Remove last item on list
+        
         if (GUILayout.Button("x")
             && questDB.data.Count > 0)
         {

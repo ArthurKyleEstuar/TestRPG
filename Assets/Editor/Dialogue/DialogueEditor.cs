@@ -44,14 +44,15 @@ public class DialogueEditor : EditorWindow
 
     Vector2 draggingCanvasOffset;
 
-    //#region Zoom_Properties
-    //private const float kZoomMin = 0.1f;
-    //private const float kZoomMax = 10.0f;
+    #region Zoom_Properties
+    private const float kZoomMin = 0.1f;
+    private const float kZoomMax = 10.0f;
 
-    //private readonly Rect _zoomArea = new Rect(0.0f, 75.0f, 600.0f, 300.0f - 100.0f);
-    //private float _zoom = 1.0f;
-    //private Vector2 _zoomCoordsOrigin = Vector2.zero;
-    //#endregion
+    private readonly Rect _zoomArea = new Rect(0.0f, 0.0f, 600.0f, 300.0f - 100.0f);
+
+    private float _zoom = 1.0f;
+    private Vector2 _zoomCoordsOrigin = Vector2.zero;
+    #endregion
 
     const float canvasSize = 4000;
     const float bgSize = 50;
@@ -158,9 +159,9 @@ public class DialogueEditor : EditorWindow
             // Scrolling the canvas
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
-
             DrawBackground();
-            DrawZoomedArea(); 
+
+            DrawNodes(); 
 
             EditorGUILayout.EndScrollView();
 
@@ -179,8 +180,10 @@ public class DialogueEditor : EditorWindow
         }
     }
 
-    private void DrawZoomedArea()
+    private void DrawNodes()
     {
+        Rect zoomArea = new Rect(0, 0, window.position.width, window.position.height);
+        EditorZoomArea.Begin(_zoom, zoomArea);
         // Draw connections between nodes first so they draw under the nodes
         foreach (DialogueNode node in selectedDialogue.GetAllNodes())
         {
@@ -191,15 +194,16 @@ public class DialogueEditor : EditorWindow
         {
             DrawNode(node);
         }
+        EditorZoomArea.End();
     }
 
-    private static void DrawBackground()
+    private void DrawBackground()
     {
         // Canvas size
         Rect canvas = GUILayoutUtility.GetRect(canvasSize, canvasSize);
         Texture2D bgTex = Resources.Load("background") as Texture2D;
 
-        Rect texCoords = new Rect(0, 0, canvasSize / bgSize, canvasSize / bgSize);
+        Rect texCoords = new Rect(0, 0, canvasSize / bgSize / _zoom, canvasSize / bgSize / _zoom);
 
         // draw window background
         GUI.DrawTextureWithTexCoords(canvas, bgTex, texCoords);
@@ -248,19 +252,15 @@ public class DialogueEditor : EditorWindow
             GUI.changed = false;
         }
 
-        //if (Event.current.type == EventType.ScrollWheel)
-        //{
-        //    Vector2 screenCoordsMousePos = Event.current.mousePosition;
-        //    Vector2 delta = Event.current.delta;
-        //    Vector2 zoomCoordsMousePos = ConvertScreenCoordsToZoomCoords(screenCoordsMousePos);
-        //    float zoomDelta = -delta.y / 150.0f;
-        //    float oldZoom = _zoom;
-        //    _zoom += zoomDelta;
-        //    _zoom = Mathf.Clamp(_zoom, kZoomMin, kZoomMax);
-        //    _zoomCoordsOrigin += (zoomCoordsMousePos - _zoomCoordsOrigin) - (oldZoom / _zoom) * (zoomCoordsMousePos - _zoomCoordsOrigin);
+        if (Event.current.type == EventType.ScrollWheel)
+        {
+            Vector2 delta = Event.current.delta;
+            float zoomDelta = -delta.y / 150.0f;
+            _zoom += zoomDelta;
+            _zoom = Mathf.Clamp(_zoom, kZoomMin, kZoomMax);
 
-        //    Event.current.Use();
-        //}
+            Event.current.Use();
+        }
     }
 
     //private Vector2 ConvertScreenCoordsToZoomCoords(Vector2 screenCoords)
@@ -272,9 +272,8 @@ public class DialogueEditor : EditorWindow
     {
         //Rect rect = GetWindow<DialogueEditor>().position;
         //GUILayout.BeginHorizontal
-        Rect rect = new Rect(0,
-            0, 100, 100);
-        GUILayout.BeginArea(rect);
+
+        EditorGUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Reset node size"))
         {
@@ -284,7 +283,17 @@ public class DialogueEditor : EditorWindow
             }
         }
 
-        GUILayout.EndArea();
+        if (GUILayout.Button("Reset camera"))
+        {
+            scrollPosition = Vector2.zero;
+        }
+
+        if (GUILayout.Button("Reset zoom"))
+        {
+            _zoom = 1.0f;
+        }
+
+        EditorGUILayout.EndHorizontal();
     }
 
 

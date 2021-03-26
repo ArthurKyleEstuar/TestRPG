@@ -125,8 +125,8 @@ MonoBehaviour:
   - 10697d06-3095-4e38-802c-11e34fde78c5
   rect:
     serializedVersion: 2
-    x: 349
-    y: 327
+    x: 360
+    y: 329
     width: 300
     height: 220
   checkQuestAvailability: 0
