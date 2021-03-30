@@ -3,31 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill_PowerStrike : SkillObject
+public class Skill_SpeedUp : SkillObject
 {
-
-    public override void ClearSkillEffect() {}
 
     protected override IEnumerator SkillUseCR()
     {
-        float poweredAtk = currCharacter.Atk * currSkillData.SkillValue;
-
         foreach (BattleCharController target in currTargets)
         {
+            target.Speed += CurrSkillData.SkillValue;
+
             StringBuilder sb = new StringBuilder("");
 
-            sb.AppendFormat("Used {0} on {1} dealing {2} damage"
+            sb.AppendFormat("Used {0} on {1}"
                 , currSkillData.SkillName
-                , target.CharName
-                , poweredAtk);
+                , target.CharName);
 
             BattleOptionUI.LogAction(sb.ToString());
 
-            target.TakeDamage(poweredAtk);
+            BattleController.SortBattlerSpeed();
 
             yield return new WaitForSeconds(1);
         }
 
         BattleController.EndTurn();
+    }
+
+    public override void ClearSkillEffect()
+    {
+        currTargets.ForEach(obj => obj.Speed -= CurrSkillData.SkillValue);
     }
 }

@@ -115,8 +115,11 @@ public class MapEditorWindow : EditorWindow
         tex.SetPixels(data);
         tex.Apply();
 
-        EditorGUI.PrefixLabel(new Rect(25, 148, 100, 5), new GUIContent("Sprite preview"));
-        EditorGUI.DrawPreviewTexture(new Rect(25, 150, 100, 100), tex);
+        EditorGUI.PrefixLabel(new Rect(25, 148, 100, 5)
+            , new GUIContent("Sprite preview"));
+
+        EditorGUI.DrawPreviewTexture(new Rect(25, 150, 100, 100)
+            , tex);
     }
 
     private void UpdateTile(bool overridePaintCheck = false)
@@ -127,6 +130,8 @@ public class MapEditorWindow : EditorWindow
        
         foreach (GameObject go in Selection.gameObjects)
         {
+            if (go.layer != 0) continue;
+
             MapTileController mtc = go.GetComponent<MapTileController>();
 
             if (mtc == null) continue;

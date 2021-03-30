@@ -7,9 +7,9 @@ public class SkillButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI skillName;
     [SerializeField] private TextMeshProUGUI skillCost;
 
-    private BattleOptionUI battleUI;
-    private SkillData currSkillData;
-    private SkillObject skillRef;
+    private BattleOptionUI  battleUI;
+    private SkillData       currSkillData;
+    private SkillObject     skillRef;
 
     public void Initialize(SkillObject newSkillObj, BattleOptionUI newUI)
     {
@@ -28,13 +28,23 @@ public class SkillButton : MonoBehaviour
 
     public void UseSkill()
     {
-        string target = "player";
+        string target = "";
+
+        switch(currSkillData.SkillTargetType)
+        {
+            case TargetType.Ally:
+                target = "player";
+                break;
+
+            case TargetType.Enemy:
+                target = "bad";
+                break;
+        }
 
         PlayerBattle.isUsingSkill = true;
         PlayerBattle.activeSkill = skillRef;
 
         battleUI.ShowValidTargets(BattleController.GetValidTargets(target));
-
-        this.gameObject.SetActive(false);
+        battleUI.DisableSkillList();
     }
 }

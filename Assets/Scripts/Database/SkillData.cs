@@ -17,16 +17,18 @@ public class SkillData : BaseData
     [SerializeField] private TargetType skillTargetType;
     [SerializeField] private int        skillCost;
     [SerializeField] private int        skillCooldown;
+    [SerializeField] private int        skillDuration;
     [SerializeField] private float      skillValue;
     [SerializeField] private int        maxTargetCount;
     [SerializeField] private GameObject skillObject;
 
-    public string       SkillName => skillName;
-    public string       SkillDesc => skillDesc;
+    public string       SkillName       => skillName;
+    public string       SkillDesc       => skillDesc;
     public TargetType   SkillTargetType => skillTargetType;
-    public int          SkillCost => skillCost;
-    public int          SkillCooldown => skillCooldown;
-    public float        SkillValue => skillValue;
-    public int          MaxTargetCount => maxTargetCount;
-    public GameObject   SkillObject => skillObject;
+    public int          SkillCost       => skillCost;
+    public int          SkillCooldown   => skillCooldown;
+    public int          SkillDuration   => skillDuration;
+    public float        SkillValue      => skillValue;
+    public int          MaxTargetCount  => maxTargetCount;
+    public GameObject   SkillObject     => skillObject;
 }

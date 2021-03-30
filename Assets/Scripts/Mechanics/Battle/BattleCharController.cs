@@ -9,22 +9,35 @@ public class BattleCharController : MonoBehaviour
     [SerializeField] private string charName;
 
     [Header("Stats")]
-    [SerializeField] private float maxHp = 10;
-    [SerializeField] private float atk = 2;
+    [SerializeField] private float maxHp    = 10;
+    [SerializeField] private float atk      = 2;
+    [SerializeField] private float speed    = 1;
 
     [Header("Skills")]
-    [SerializeField] private SkillDatabase skillDb;
-    [SerializeField] private List<string> skillIds = new List<string>();
+    [SerializeField] private SkillDatabase  skillDb;
+    [SerializeField] private List<string>   skillIds = new List<string>();
 
     [SerializeField] private List<SkillObject> skillObjects = new List<SkillObject>();
 
     private float currHp;
 
-    public string   TeamId => teamId;
-    public string   CharName => charName;
-    public float MaxHp => maxHp;
-    public int CurrHp => (int)currHp;
-    public float Atk => atk;
+    public string   TeamId      => teamId;
+    public string   CharName    => charName;
+    public float    MaxHp       => maxHp;
+    public int      CurrHp      => (int)currHp;
+    public float    Atk         => atk;
+
+    public float    Speed
+    {
+        get { return speed; }
+        set
+        {
+            speed = value;
+            if (speed < 0)
+                speed = 0;
+        }
+    }
+
     public List<SkillObject> Skills => skillObjects;
 
     private void Start()
@@ -43,6 +56,11 @@ public class BattleCharController : MonoBehaviour
 
             skillObjects.Add(so);
         }
+    }
+
+    public void OnTurnStart()
+    {
+        skillObjects.ForEach(obj => obj.CountdownSkillDuration());
     }
 
     public float TakeDamage(float initDamage)

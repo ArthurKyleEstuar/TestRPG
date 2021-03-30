@@ -11,13 +11,34 @@ public abstract class SkillObject : MonoBehaviour
 
     public SkillData CurrSkillData => currSkillData;
 
+    private int currSkillRemainDuration;
+
     public virtual void Initialize(SkillData newData, BattleCharController skillOwner)
     {
         currSkillData = newData;
         currCharacter = skillOwner;
     }
 
-    public abstract void UseSkill();
+    public void CountdownSkillDuration()
+    {
+        if (currSkillRemainDuration <= 0) return;
+
+        currSkillRemainDuration--;
+
+        if (currSkillRemainDuration <= 0)
+            ClearSkillEffect();
+    }
+
+    public virtual void UseSkill()
+    {
+        currSkillRemainDuration = CurrSkillData.SkillDuration;
+
+        StartCoroutine(SkillUseCR());
+    }
+
+    public abstract void ClearSkillEffect();
+
+    protected abstract IEnumerator SkillUseCR();
 
     public void AddTarget(BattleCharController newTarget)
     {

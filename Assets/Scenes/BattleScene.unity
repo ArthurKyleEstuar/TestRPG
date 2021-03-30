@@ -292,9 +292,11 @@ MonoBehaviour:
   charName: Player
   maxHp: 10
   atk: 2
+  speed: 5
   skillDb: {fileID: 11400000, guid: 684f1ee6fc49e5d40b6d5d35109260ff, type: 2}
   skillIds:
   - powerstrike
+  - haste
   skillObjects: []
 --- !u!4 &282816038
 Transform:
@@ -309,7 +311,7 @@ Transform:
   m_Children:
   - {fileID: 684257137}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &338973331
 GameObject:
@@ -345,6 +347,7 @@ MonoBehaviour:
   charName: Bad2
   maxHp: 10
   atk: 2
+  speed: 1
   skillDb: {fileID: 11400000, guid: 684f1ee6fc49e5d40b6d5d35109260ff, type: 2}
   skillIds: []
   skillObjects: []
@@ -361,7 +364,7 @@ Transform:
   m_Children:
   - {fileID: 126238798}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &338973334
 MonoBehaviour:
@@ -375,8 +378,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73bcd003a6ca4a4fbd39cda74c91528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiData: {fileID: 0}
-  battleUi: {fileID: 0}
+  aiData: {fileID: 338973332}
+  battleUi: {fileID: 669367724}
 --- !u!1 &669367719
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +394,7 @@ GameObject:
   - component: {fileID: 669367720}
   - component: {fileID: 669367724}
   m_Layer: 5
-  m_Name: UICanvas
+  m_Name: ---- UI ----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -470,7 +473,7 @@ RectTransform:
   m_Children:
   - {fileID: 1026334069}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -764,7 +767,7 @@ GameObject:
   - component: {fileID: 716138902}
   - component: {fileID: 716138903}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: MainController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -816,7 +819,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &716138902
 MonoBehaviour:
@@ -1640,6 +1643,7 @@ MonoBehaviour:
   charName: Bad1
   maxHp: 10
   atk: 2
+  speed: 9
   skillDb: {fileID: 11400000, guid: 684f1ee6fc49e5d40b6d5d35109260ff, type: 2}
   skillIds: []
   skillObjects: []
@@ -1656,7 +1660,7 @@ Transform:
   m_Children:
   - {fileID: 1010586513}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1535034132
 MonoBehaviour:
@@ -1670,8 +1674,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73bcd003a6ca4a4fbd39cda74c91528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiData: {fileID: 0}
-  battleUi: {fileID: 0}
+  aiData: {fileID: 1535034130}
+  battleUi: {fileID: 669367724}
 --- !u!1 &1617535691
 GameObject:
   m_ObjectHideFlags: 0
@@ -2150,7 +2154,7 @@ GameObject:
   - component: {fileID: 1947724731}
   - component: {fileID: 1947724730}
   m_Layer: 5
-  m_Name: BGCanvas
+  m_Name: ---- BG ----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2229,7 +2233,7 @@ RectTransform:
   m_Children:
   - {fileID: 1923131937}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2254,7 +2258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2078236216
 RectTransform:
   m_ObjectHideFlags: 0

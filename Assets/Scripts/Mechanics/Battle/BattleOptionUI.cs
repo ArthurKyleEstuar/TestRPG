@@ -38,7 +38,6 @@ public class BattleOptionUI : MonoBehaviour
         }
     }
 
-
     #region Target Selection
     public void ShowValidTargets(List<BattleCharController> targets)
     {
@@ -55,7 +54,7 @@ public class BattleOptionUI : MonoBehaviour
 
             for(int i = 0; i < targets.Count; i++)
             {
-                if (targetObjects[i] == null)
+                if (i >= targetObjects.Count - 1)
                 {
                     SetTargetButton(targets[i]);
                 }

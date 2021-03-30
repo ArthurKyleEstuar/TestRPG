@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleController : MonoBehaviour
 {
-    [SerializeField] private static List<BattleCharController> battleControllers = new List<BattleCharController>();
+    [SerializeField] private static List<BattleCharController> charControllers = new List<BattleCharController>();
     [SerializeField] private PlayerBattle               playerController;
 
     private static int currBattleIndex;
@@ -29,26 +29,36 @@ public class BattleController : MonoBehaviour
 
     private void Start()
     {
-        battleControllers.Clear();
+        charControllers.Clear();
 
-        battleControllers.AddRange(FindObjectsOfType<BattleCharController>());
+        charControllers.AddRange(FindObjectsOfType<BattleCharController>());
+
+        SortBattlerSpeed();
 
         HandleTurn();
+
         //TODO 
         //1. Load battle data
         //2. Sort by stats
         //3. Turn order
     }
 
+    public static void SortBattlerSpeed()
+    {
+        charControllers.Sort((b1, b2) => b2.Speed.CompareTo(b1.Speed));
+    }
+
     private static void HandleTurn()
     {
-        if (battleControllers[currBattleIndex].TeamId == "player" && Instance.playerController != null)
+        if (charControllers[currBattleIndex].TeamId == "player" 
+            && Instance.playerController != null)
         {
-            Instance.playerController.OnTurnStart(battleControllers[currBattleIndex]);
+            Instance.playerController.OnTurnStart(charControllers[currBattleIndex]);
         }
         else
         {
-            AiBattle ai = battleControllers[currBattleIndex].GetComponent<AiBattle>();
+            AiBattle ai = charControllers[currBattleIndex]
+                .GetComponent<AiBattle>();
 
             if (ai == null) EndTurn();
 
@@ -60,19 +70,19 @@ public class BattleController : MonoBehaviour
     {
         currBattleIndex++;
 
-        if (currBattleIndex >= battleControllers.Count)
+        if (currBattleIndex >= charControllers.Count)
             currBattleIndex = 0;
 
         HandleTurn();
     }
 
-    public static List<BattleCharController> GetValidTargets(string currTeamId)
+    public static List<BattleCharController> GetValidTargets(string targetTeamId)
     {
         List<BattleCharController> validTargets = new List<BattleCharController>();
 
-        foreach(BattleCharController bcc in battleControllers)
+        foreach(BattleCharController bcc in charControllers)
         {
-            if (bcc.TeamId != currTeamId)
+            if (bcc.TeamId == targetTeamId)
                 validTargets.Add(bcc);
         }
 

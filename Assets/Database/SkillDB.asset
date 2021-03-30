@@ -19,7 +19,19 @@ MonoBehaviour:
     skillTargetType: 1
     skillCost: 0
     skillCooldown: 0
+    skillDuration: 0
     skillValue: 1.5
     maxTargetCount: 1
     skillObject: {fileID: 5520707773480427404, guid: fdf3b59b8181b174f8dec102b6f73b06,
+      type: 3}
+  - id: haste
+    skillName: Haste
+    skillDesc: Add 5 speed to ally
+    skillTargetType: 2
+    skillCost: 0
+    skillCooldown: 0
+    skillDuration: 2
+    skillValue: 5
+    maxTargetCount: 1
+    skillObject: {fileID: 3242922505111035187, guid: d001a64b1e117064ab390a39116d8092,
       type: 3}

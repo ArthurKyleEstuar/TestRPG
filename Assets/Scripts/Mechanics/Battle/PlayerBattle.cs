@@ -23,6 +23,8 @@ public class PlayerBattle : MonoBehaviour
         isUsingSkill = false;
         activeSkill = null;
 
+        newChar.OnTurnStart();
+
         onTurnStart?.Invoke();
     }
 
@@ -30,7 +32,8 @@ public class PlayerBattle : MonoBehaviour
     {
         if (battleUi == null) return;
 
-        battleUi.ShowValidTargets(BattleController.GetValidTargets("player"));
+        battleUi.ShowValidTargets(BattleController
+            .GetValidTargets("bad"));
     }
 
     public void ShowSkills()
@@ -41,7 +44,11 @@ public class PlayerBattle : MonoBehaviour
     public void AttackTarget(BattleCharController newTarget)
     {
         float totalDamage = newTarget.TakeDamage(currChar.GetAttackDamage());
-        string action = newTarget.CharName + " takes " + (int)totalDamage + " damage!";
+
+        string action = newTarget.CharName 
+            + " takes "
+            + (int)totalDamage
+            + " damage!";
 
         if (playerUi != null)
             playerUi.gameObject.SetActive(false);

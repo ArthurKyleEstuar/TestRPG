@@ -49,6 +49,7 @@ public class TargetSelect : MonoBehaviour
         if (PlayerBattle.isUsingSkill)
         {
             PlayerBattle.activeSkill.AddTarget(targetController);
+
             currTargettedCount++;
 
             if(counterPrefab != null)
